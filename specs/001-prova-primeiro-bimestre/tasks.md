@@ -1,7 +1,7 @@
 # TASKS: Prova do 1º Bimestre — API de Reservas
 
 Spec e Plan aprovados. Cada task é pequena, ordenada e tem **Verificação** (saída real). Marcar `[x]` só após verificar.
-**Log de prompts (Parte 5 / Q2):** ao fim de cada task que use a IA, atualizar `evidencias/prompts-log.md` (prompt, o que a IA gerou, o que foi corrigido; marcar o que é gerado por IA: Dockerfile, compose, módulos). Sem segredos/account-id.
+**Log de prompts (Parte 5 / Q2):** registrar TODOS os prompts do aluno, literais e sem exceção, a cada turno (seção D do log); ao fim de cada task que use a IA, atualizar `evidencias/prompts-log.md` (prompt, o que a IA gerou, o que foi corrigido; marcar o que é gerado por IA: Dockerfile, compose, módulos). Sem segredos/account-id.
 Convenção de commit: Conventional Commits com corpo (o quê + porquê) + `Co-Authored-By`. Nunca commitar na `main` durante a feature; merge com `--no-ff`.
 🛑 = guardrail de custo/regra. Nenhum push/PR ao repo da disciplina antes de 01/10.
 
