@@ -1,0 +1,21 @@
+# Node
+node_modules/
+
+# Segredos e ambiente
+.env
+*.pem
+
+# Terraform (o .terraform.lock.hcl DEVE ser versionado)
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfvars
+!*.tfvars.example
+backend.hcl
+crash.log
+
+# SO / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
