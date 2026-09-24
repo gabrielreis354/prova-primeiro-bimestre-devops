@@ -6,11 +6,11 @@ Convenção de commit: Conventional Commits com corpo (o quê + porquê) + `Co-A
 🛑 = guardrail de custo/regra. Nenhum push/PR ao repo da disciplina antes de 01/10.
 
 ## Dia 1 — 24/09: Repositório e Git (RF8, CA1)
-- [ ] T01 `git init` em `prova-primeiro-bimestre-devops`, branch `main`. **V:** `git status`.
-- [ ] T02 `.gitignore` (node_modules, .env, .terraform, *.tfstate, *.tfstate.backup, *.pem, *.tfvars, `!*.tfvars.example`, backend.hcl; NÃO ignorar `.terraform.lock.hcl`). **V:** `git check-ignore -v` nos padrões.
-- [ ] T03 `README.md` (nome, RA 6325149, descrição, como rodar, enum de `status`). **V:** leitura.
-- [ ] T04 Commit `docs: adiciona SPEC, PLAN e TASKS` + `chore: adiciona .gitignore` + `docs: adiciona README` em `main` (baseline). **V:** `git log --oneline`.
-- [ ] T05 Criar `feature/api-reservas`; iniciar `evidencias/prompts-log.md` (sem segredos) e rascunho de `relatorio.md`. **V:** `git branch`.
+- [x] T01 `git init` em `prova-primeiro-bimestre-devops`, branch `main`. **V:** `git status`.
+- [x] T02 `.gitignore` (node_modules, .env, .terraform, *.tfstate, *.tfstate.backup, *.pem, *.tfvars, `!*.tfvars.example`, backend.hcl; NÃO ignorar `.terraform.lock.hcl`). **V:** `git check-ignore -v` nos padrões.
+- [x] T03 `README.md` (nome, RA 6325149, descrição, como rodar, enum de `status`). **V:** leitura.
+- [x] T04 Commit `docs: adiciona SPEC, PLAN e TASKS` + `chore: adiciona .gitignore` + `docs: adiciona README` em `main` (baseline). **V:** `git log --oneline`.
+- [x] T05 Criar `feature/api-reservas`; iniciar `evidencias/prompts-log.md` (sem segredos) e rascunho de `relatorio.md`. **V:** `git branch`.
 
 ## Dia 2 — 25/09: API + Postgres local (RF1–RF7, CA4, CA5)
 - [ ] T06 `app/package.json` (express, pg; Node 22) + `npm install`. **V:** `npm ls`.
