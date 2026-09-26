@@ -146,3 +146,8 @@ Português, conciso. Não repita o que está correto além da tabela.
 > Vamos continuar
 
 → IA: retomou T09/T10 após uma chamada interrompida pelo sistema; conferiu o estado (API parada, Postgres temporário ativo) e reexecutou o smoke test na porta 3100, pois a 3000 é usada por outra aplicação local ("Sistema de Gestão de Hotel Backend").
+
+**P14** (25/09/2026)
+> siga para o dia 3
+
+→ IA: executa T11–T13 (Dockerfile multi-stage, .dockerignore, evidências de build/execução).

@@ -20,9 +20,9 @@ Convenção de commit: Conventional Commits com corpo (o quê + porquê) + `Co-A
 - [x] T10 Commit `feat(api): implementa CRUD de reservas com PostgreSQL`. **V:** `git log`.
 
 ## Dia 3 — 26/09: Docker (RF9, CA2, CA16)
-- [ ] T11 `app/Dockerfile` multi-stage (`node:22-alpine`, `USER node`) + `.dockerignore`. **V:** `docker build` ok.
-- [ ] T12 Executar container contra Postgres; `curl /health`; `docker exec … whoami` = node. **V:** salvar `evidencias/docker-build.txt` (build + run + whoami + curl).
-- [ ] T13 Commit `feat(docker): adiciona Dockerfile multi-stage e dockerignore`.
+- [x] T11 `app/Dockerfile` multi-stage (`node:22-alpine`, `USER node`) + `.dockerignore`. **V:** `docker build` ok.
+- [x] T12 Executar container contra Postgres; `curl /health`; `docker exec … whoami` = node. **V:** salvar `evidencias/docker-build.txt` (build + run + whoami + curl).
+- [x] T13 Commit `feat(docker): adiciona Dockerfile multi-stage e dockerignore`.
 
 ## Dia 4 — 27/09: Compose (RF10, RF20, CA3, CA4)
 - [ ] T14 `.env.example` (sem senhas reais) e `.env` local ignorado. **V:** `git ls-files | grep .env` só mostra `.env.example`.
