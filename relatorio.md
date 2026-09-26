@@ -9,7 +9,7 @@ Lendo o material de aula, o TF, o TA de cada aula dá para ver que os problemas 
 
 - A aula 01 foi sobre docker e git
 - A aula 2 manteve o conteúdo da aula adicionando API + banco de dados PostgreSQL
-- A aula 3 introduziu os conceitos sobre AWS com os Lab para aplicar os conceitos já conhecidos em um ambiente cloud
+- A aula 3 introduziu os conceitos sobre Segurança AWS com IAM e com os Lab para aplicar os conceitos já conhecidos em um ambiente cloud
 - A aula 04 - introduziu os conceitos de VPC, subnet pública subnet privada, internet gateway, Route Table, Security Group e NACL no contexto de Firewall, Key Pairs e EC2 na AWS, não somente ensinando os conceitos, mas ensinando como utilizar eles na cloud, em específico na AWS.
 - A aula 05 - depois de conduzir os conceitos sobre infraestrutura em ambiente cloud, a pergunta guia foi: Onde vamos guardar os dados do usuário. Então aprendemos sobre os conceitos de: RDS, DB Subnet Group, Multi-AZ, terraform para subir e mapear os recursos na AWS, backend S3, DynamoDB
 - Aula 06: Depois de conseguir desenhar e implantar as necessidades da Technova de maneira completa e utilizando terraform para isso avançamos no conteúdo de terraform, aprendendo sobre Terraform Modules.
@@ -38,9 +38,9 @@ A ordem seguiu a sugestão das Dicas do enunciado (Git e aplicação primeiro, d
 
 ## Questão 2 — O Processo com IA como Copiloto
 
-Para essa prova eu não usei o Kiro, eu usei o Claude Code com a skill oficial de Spec disponibilizada pelo Github e gravei as regras da metodologia SDD nela.
+Para essa prova eu não usei o Kiro, eu usei o Claude Code com a skill de Spec e gravei as regras da metodologia SDD no claude.md dela junto de outras boas práticas de promogração.
 
-No geral para criar a Spec validar, depois gerar o planejamento completo validar, depois gerar cada tasks e validar diminui bastante o grau de erro porque a IA define os passos que ela vai seguir. Você pode ver cada passo corrigir caso necessário, então você não precisa ter em mente cada passo que ela vai seguir após a execução, você no início pede para ela gerar o planejamento completo e depois corrige conforme a necessidade.
+No mérito de usar a IA como copiloto usar ela para criar a Spec validar, depois gerar o planejamento completo validar, depois gerar cada tasks e validar diminui bastante o grau de erro porque a IA define os passos que ela vai seguir. Você pode ver cada passo corrigir caso necessário, então você não precisa ter em mente cada passo que ela vai seguir após a execução, você no início pede para ela gerar o planejamento completo e depois corrige conforme a necessidade.
 
 Como dá para ver no prompt logs que eu vou pedir para ela colocar abaixo. A quantidade massiva de decisões e revisões foi extremamente necessária para capturar a maioria dos erros descobertos, mas na fase de implementação ela só segue o planejamento que já foi especificado e validado, assim o trabalho que temos ou imprevistos diminui porque tanto você como a IA envolvida no processo sabe o que está sendo feito
 
@@ -98,9 +98,11 @@ Leitura das fases: a decisão do que construir, com quais restrições e como va
 
 ## Questão 3 — Infraestrutura, Segurança e o Learner Lab
 
-O claude vai incluir um diagrama mermaid abaixo sobre a arquitetura completa criada nesse exercício, mas respondendo as perguntas objetivamente:
+O claude incluiu um desenho feito no mermaid sobre a arquitetura do projeto:
 
 - Por que o RDS fica na subnet privada e a EC2 na pública? O RDS é um serviço de banco de dados gerenciado pela AWS, ou seja, todos os dados sensíveis de clientes estão lá e sendo assim eu não possa deixar uma porta aberta publica para qualquer um acessar. Dessa maneira limitar em uma subnet privada é uma maneira que eu tenho para proteger o acesso de quem pode entrar e restringir para que ele não seja facilmente detectável por pessoas com intenções maliciosas
+
+- **Por que a EC2 fica na subnet pública:** a API precisa receber requisições da internet (porta 3000, pelo Internet Gateway) e o aluno precisa administrar a instância (SSH na 22, liberado só para o IP do aluno em /32). O RDS não recebe tráfego da internet: só a EC2 alcança a porta 5432, porque o SG do RDS aceita apenas o SG da EC2 como origem (`referenced_security_group_id`), sem `0.0.0.0/0`. Prova: a tentativa de conexão TCP externa ao RDS não abriu (`seguranca-state.txt`).
 
 - Como funcionou o uso do LabRole/LabInstanceProfile em vez de criar IAM próprio? Especificamente no learner lab o permitido é usar LabRole / LabInstanceProfile até mesmo para que não se possa criar diferentes usuários com diferentes políticas de permissões de acesso além do permitido. É uma segurança dentro do AWS Learner Lab Academy utilizado para a execução das aulas
 
@@ -108,7 +110,7 @@ O claude vai incluir um diagrama mermaid abaixo sobre a arquitetura completa cri
 
 ### Complementos da Questão 3
 
-- **Por que a EC2 fica na subnet pública:** a API precisa receber requisições da internet (porta 3000, pelo Internet Gateway) e o aluno precisa administrar a instância (SSH na 22, liberado só para o IP do aluno em /32). O RDS não recebe tráfego da internet: só a EC2 alcança a porta 5432, porque o SG do RDS aceita apenas o SG da EC2 como origem (`referenced_security_group_id`), sem `0.0.0.0/0`. Prova: a tentativa de conexão TCP externa ao RDS não abriu (`seguranca-state.txt`).
+
 - **Como o LabRole e o LabInstanceProfile foram usados na prática:** a EC2 recebe `iam_instance_profile = "LabInstanceProfile"` apenas por nome, e o provider usa as credenciais da role do Lab (`voclabs`). Nenhum recurso IAM foi criado: `terraform state list` não tem nenhum `aws_iam`.
 - **Credenciais temporárias:** o Lab entrega Access Key, Secret e Session Token (carregados por `aws-creds.sh`) que expiram. No início do dia 5 a sessão já estava expirada (`InvalidClientTokenId`) e precisou ser renovada.
 - **Região:** tudo em `us-east-1`; as AZs foram escolhidas depois de conferir com a AWS CLI que `t2.micro` e `db.t3.micro` estão disponíveis (`aws-precheck.txt`).
@@ -156,11 +158,11 @@ flowchart LR
 
 Antes de aplicar o terraform apply devemos conferir se aquilo que foi planejado bate corretamente com o enunciado e com as necessidades do exercício então os seguintes pontos foram validados:
 
-- Checklist aplicado antes do apply (T27): sem IAM; sem NAT; VPC 2 AZs pública/privada; SG EC2 (22 e 3000) e RDS (5432 só do SG da EC2, sem `0.0.0.0/0`); EC2 t2.micro com `LabInstanceProfile`; RDS db.t3.micro privado, criptografado, subnet group privado; tags; sem senha/account-id nas evidências; plano salvo (`-out`) e revisado antes de aplicar.
+- Pontos verificados antes do apply: sem IAM; sem NAT; VPC 2 AZs pública/privada; SG EC2 (22 e 3000) e RDS (5432 só do SG da EC2, sem `0.0.0.0/0`); EC2 t2.micro com `LabInstanceProfile`; RDS db.t3.micro privado, criptografado, subnet group privado; tags; sem senha/account-id nas evidências; plano salvo (`-out`) e revisado antes de aplicar.
 
 - Como validou: `terraform validate` e `plan`, revisão do plano, CRUD no RDS via `api_url`, `describe-db-instances`, `describe-security-groups`, state no S3 (versionado/SSE), lock no DynamoDB, e verificação pós-destroy por CLI.
 
-- Caso não houvesse revisão da IA gerou esses erros reais coletados e enumerados poderiam ter acontecido e seria descoberto apenas depois:
+- Caso não houvesse revisão da IA ela teria gerado esses erros que foram coletados e evitados, mas que poderiam ter acontecido e seria descoberto apenas depois:
 
 1. Senha vazando nas evidências
 2. `0.0.0.0/0` na 5432
