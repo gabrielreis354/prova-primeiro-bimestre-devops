@@ -203,3 +203,8 @@ Responda em português, lista priorizada (CRÍTICO / IMPORTANTE / MENOR) com arq
 - T20 sem saídas versionadas das verificações do bucket/tabela → anotado; serão salvas no dia 6 (T33).
 - Pendentes por plano (não são erros): merge `--no-ff`, tag `v0.9-apply` e push do repo público (T28/T29, antes do apply) e a assinatura da T27.
 - Limitações a citar no relatório: senha do RDS no `user_data`/`docker run`, `rejectUnauthorized: false` no SSL, `dynamodb_table` deprecated.
+
+**P20** (25/09/2026)
+> 1. Aprovo; Eu criei o repo publico j[a apenas falta conectar
+
+→ IA: aprovação da T27 (revisão do plan). Verificou o repo criado (público, vazio, nome igual ao `repo_url` do Terraform), fez o merge `--no-ff` de `feature/api-reservas` em `main`, salvou o `git log --graph`, criou a tag `v0.9-apply`, conectou o remote e enviou `main`, a feature branch e a tag.
