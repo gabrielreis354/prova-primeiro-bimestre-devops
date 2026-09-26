@@ -46,7 +46,7 @@ O claude vai incluir um diagrama mermaid abaixo sobre a arquitetura completa cri
 
 - Como funcionou o uso do LabRole/LabInstanceProfile em vez de criar IAM próprio? Especificamente no learner lab o permitido é usar LabRole / LabInstanceProfile até mesmo para que não se possa criar diferentes usuários com diferentes políticas de permissões de acesso além do permitido. É uma segurança dentro do AWS Learner Lab Academy utilizado para a execução das aulas
 
-- Que ajustes o AWS Academy Learner Lab exigiu em relação ao que foi ensinado (credenciais temporárias, região, restrições de IAM)? A própria AWS Academy Leaner Lab limita a criação de roles, deixando somente a role da própria conta que seja utilizada, outros serviços também são limitados
+- Que ajustes o AWS Academy Learner Lab exigiu em relação ao que foi ensinado (credenciais temporárias, região, restrições de IAM)? A própria AWS Academy Learner Lab limita a criação de roles, deixando somente a role da própria conta que seja utilizada, outros serviços também são limitados
 
 ### Diagrama da arquitetura provisionada
 
