@@ -1,0 +1,21 @@
+*   95a675f (HEAD -> main) merge: integra feature/api-reservas na main
+|\  
+| * 6ecbfde (feature/api-reservas) docs: aprova revisão do plan (T27) e registra prompt P20
+| * 0c0f8bf docs: atualiza README, cria rascunho do relatório e corrige datas
+| * 28357d1 docs: marca tarefas do dia 5 e registra prompts P17-P18
+| * 526a4fd docs: adiciona evidências de validate, plan e pré-checagem AWS
+| * 785ac9d feat(infra): compõe os módulos na raiz com backend S3
+| * d3f8cd3 feat(infra): adiciona módulos rds e ec2
+| * 63fe809 feat(infra): adiciona módulos vpc e security-group
+| * 2f6ab63 feat(infra): adiciona bootstrap e teardown do remote state
+| * e55cff6 docs: marca tarefas do dia 4 e registra prompts P15-P16
+| * c189527 feat(compose): adiciona ambiente local API + PostgreSQL
+| * 81b5396 feat(docker): adiciona Dockerfile multi-stage e dockerignore
+| * e7ce503 feat(api): implementa CRUD de reservas com PostgreSQL
+| * d6da7a6 docs: analisa se a API da Aula 07 serve para a prova
+| * eaa410a docs: reescreve log de prompts com todos os prompts literais
+| * 1f2ada7 docs: inicia log de prompts e marca tarefas do dia 1
+|/  
+* 7c28ea4 docs: adiciona README com nome, RA e descrição do projeto
+* 80ab550 chore: adiciona .gitignore
+* 3c547d6 docs: adiciona SPEC, PLAN e TASKS da prova
