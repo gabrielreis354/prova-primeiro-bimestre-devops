@@ -13,11 +13,11 @@ Convenção de commit: Conventional Commits com corpo (o quê + porquê) + `Co-A
 - [x] T05 Criar `feature/api-reservas`; iniciar `evidencias/prompts-log.md` (sem segredos) e rascunho de `relatorio.md`. **V:** `git branch`.
 
 ## Dia 2 — 25/09: API + Postgres local (RF1–RF7, CA4, CA5)
-- [ ] T06 `app/package.json` (express, pg; Node 22) + `npm install`. **V:** `npm ls`.
-- [ ] T07 `src/db.js`: Pool com env `DB_*`/`DB_SSL`, retry/backoff, `CREATE TABLE IF NOT EXISTS reservas (id SERIAL, cliente, data, status)`. **V:** conecta ao Postgres local (container temporário `docker run postgres:16-alpine`).
-- [ ] T08 `src/routes/reservas.js` + `src/index.js`: CRUD, `/health`, validação (400/404, `:id` inteiro). **V:** subir API e testar com curl.
-- [ ] T09 `app/smoke.sh`: POST→GET→GET/:id→PUT→DELETE, 404, 400, param inválido; sai com código ≠ 0 se falhar. **V:** `bash smoke.sh` verde.
-- [ ] T10 Commit `feat(api): implementa CRUD de reservas com PostgreSQL`. **V:** `git log`.
+- [x] T06 `app/package.json` (express, pg; Node 22) + `npm install`. **V:** `npm ls`.
+- [x] T07 `src/db.js`: Pool com env `DB_*`/`DB_SSL`, retry/backoff, `CREATE TABLE IF NOT EXISTS reservas (id SERIAL, cliente, data, status)`. **V:** conecta ao Postgres local (container temporário `docker run postgres:16-alpine`).
+- [x] T08 `src/routes/reservas.js` + `src/index.js`: CRUD, `/health`, validação (400/404, `:id` inteiro). **V:** subir API e testar com curl.
+- [x] T09 `app/smoke.sh`: POST→GET→GET/:id→PUT→DELETE, 404, 400, param inválido; sai com código ≠ 0 se falhar. **V:** `bash smoke.sh` verde.
+- [x] T10 Commit `feat(api): implementa CRUD de reservas com PostgreSQL`. **V:** `git log`.
 
 ## Dia 3 — 26/09: Docker (RF9, CA2, CA16)
 - [ ] T11 `app/Dockerfile` multi-stage (`node:22-alpine`, `USER node`) + `.dockerignore`. **V:** `docker build` ok.

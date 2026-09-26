@@ -136,3 +136,13 @@ Português, conciso. Não repita o que está correto além da tabela.
 → IA: localizou o TF/API da Aula 07 e validou contra os requisitos da API da prova (ver abaixo, resultado registrado após a análise).
 
 → Resultado (IA): a API da Aula 07 (`entregas/aula-07/6325149/server.js`, Reserva de Salas, em memória) **não atende** a API da prova: rotas, campos e persistência divergem. Decisão: **não reutilizar o código**; reaproveitar apenas padrões (Express, validação manual, códigos 400/404). Detalhes na resposta ao aluno e em `specs/001-prova-primeiro-bimestre/api-aula07-analise.md`.
+
+**P12** (25/09/2026)
+> siga para o dia 2
+
+→ IA: executa T06–T10 (API + PostgreSQL local).
+
+**P13** (25/09/2026) — comando local `/model` (manteve Sonnet 5) e prompt:
+> Vamos continuar
+
+→ IA: retomou T09/T10 após uma chamada interrompida pelo sistema; conferiu o estado (API parada, Postgres temporário ativo) e reexecutou o smoke test na porta 3100, pois a 3000 é usada por outra aplicação local ("Sistema de Gestão de Hotel Backend").
