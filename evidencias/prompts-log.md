@@ -284,3 +284,9 @@ Formato: português, conciso. 1) Tabela CA1–CA17 (veredito | evidência). 2) L
 > A
 
 → IA: opção A, manter o `entrega.md` como está (Claude Code, IP/endpoint mortos na evidência, 229 linhas com evidências completas); nenhum ajuste pedido nos itens 3, 4 ou 5. Item "relatorio.md completo" segue desmarcado até o aluno escrever o relatório.
+
+**P29** (26/09/2026)
+> Escrevi o relatório .md pode analisar, ficou alguumas pendencias propositais para você como gerasr o diagrama da arquitetura feita no exercicio, colocar alguns prompts enviados mostrando que a fase massiva de prompts foi na etapa de levantamento dos requisitos escrita da Spec, planejamento e tasks menores. Eu não quero que você mude o texto em si, pode analisar se a resposta realmente está respondendo o que o enunciado pede, se tem coerência o que está sendo escrito e caso o texto da resposta precise de alguma formatação para ser melhor compreendido
+
+→ IA: leu o `relatorio.md` do aluno e comparou com o enunciado, com as aulas e com o log. Inseriu só dois blocos novos, sem alterar frases do aluno: (1) tabela de prompts literais no fim da Q2 (12 citações conferidas contra este log) e (2) diagrama Mermaid ao fim da Q3 (não renderizado localmente, sem mermaid-cli). Removeu apenas o banner "RASCUNHO" que era da própria IA. Entregou a análise de aderência e coerência no chat, sem reescrever o texto do aluno.
+→ Ressalva registrada: pelos números do log, a "fase massiva" não se sustenta pela contagem de prompts do aluno (P02–P10 = 9 prompts, média 17 palavras; P11–P28 = 18 prompts); sustenta-se pela densidade de decisões e pelos 3 prompts longos a subagentes (B1–B3) e pelos prompts curtos ("siga para o dia N") na implementação. A tabela foi escrita com esse enquadramento.
