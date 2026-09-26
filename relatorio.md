@@ -38,7 +38,7 @@ A ordem seguiu a sugestão das Dicas do enunciado (Git e aplicação primeiro, d
 
 ## Questão 2 — O Processo com IA como Copiloto
 
-Para essa prova eu não usei o Kiro, eu usei o Claude Code com a skill de Spec e gravei as regras da metodologia SDD no claude.md dela junto de outras boas práticas de promogração.
+Para essa prova eu não usei o Kiro, eu usei o Claude Code com a skill de Spec e gravei as regras da metodologia SDD no claude.md dela junto de outras boas práticas de programação.
 
 No mérito de usar a IA como copiloto usar ela para criar a Spec validar, depois gerar o planejamento completo validar, depois gerar cada tasks e validar diminui bastante o grau de erro porque a IA define os passos que ela vai seguir. Você pode ver cada passo corrigir caso necessário, então você não precisa ter em mente cada passo que ela vai seguir após a execução, você no início pede para ela gerar o planejamento completo e depois corrige conforme a necessidade.
 
@@ -75,7 +75,7 @@ Como dá para ver no prompt logs que eu vou pedir para ela colocar abaixo. A qua
 - Onde economizou: código repetitivo (módulos, scripts, Compose), evidências e log, e revisões em paralelo por subagentes.
 - Onde atrapalhou ou custou tempo: os erros da tabela acima, a revisão necessária de cada saída e o retrabalho de evidências.
 - Não houve medição de uma execução manual de referência; qualquer comparação de tempo é estimativa.
-- Definitamente desenvolver manualmente seria muito mais demorado do que foi realmente, a IA poder escrever o código e depois poder revisar de acordo com o planejamento revisado por você é muito melhor para o ciclo de desenvolvimento. Você apenas pode analisar o código escrito e pedir para ele mudar conforme a necessidade.
+- Definitivamente desenvolver manualmente seria muito mais demorado do que foi realmente, a IA poder escrever o código e depois poder revisar de acordo com o planejamento revisado por você é muito melhor para o ciclo de desenvolvimento. Você apenas pode analisar o código escrito e pedir para ele mudar conforme a necessidade.
 
 ### Prompts que sustentam o relato (trechos literais de `evidencias/prompts-log.md`)
 
@@ -100,7 +100,7 @@ Leitura das fases: a decisão do que construir, com quais restrições e como va
 
 O claude incluiu um desenho feito no mermaid sobre a arquitetura do projeto:
 
-- Por que o RDS fica na subnet privada e a EC2 na pública? O RDS é um serviço de banco de dados gerenciado pela AWS, ou seja, todos os dados sensíveis de clientes estão lá e sendo assim eu não possa deixar uma porta aberta publica para qualquer um acessar. Dessa maneira limitar em uma subnet privada é uma maneira que eu tenho para proteger o acesso de quem pode entrar e restringir para que ele não seja facilmente detectável por pessoas com intenções maliciosas
+- Por que o RDS fica na subnet privada e a EC2 na pública? O RDS é um serviço de banco de dados gerenciado pela AWS, ou seja, todos os dados sensíveis de clientes estão lá e sendo assim eu não posso deixar uma porta aberta pública para qualquer um acessar. Dessa maneira limitar em uma subnet privada é uma maneira que eu tenho para proteger o acesso de quem pode entrar e restringir para que ele não seja facilmente detectável por pessoas com intenções maliciosas
 
 - **Por que a EC2 fica na subnet pública:** a API precisa receber requisições da internet (porta 3000, pelo Internet Gateway) e o aluno precisa administrar a instância (SSH na 22, liberado só para o IP do aluno em /32). O RDS não recebe tráfego da internet: só a EC2 alcança a porta 5432, porque o SG do RDS aceita apenas o SG da EC2 como origem (`referenced_security_group_id`), sem `0.0.0.0/0`. Prova: a tentativa de conexão TCP externa ao RDS não abriu (`seguranca-state.txt`).
 
