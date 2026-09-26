@@ -34,9 +34,8 @@ docker-compose.yml   API + PostgreSQL (ambiente local)
 .env.example  Variáveis de ambiente (sem segredos)
 infra/        Terraform: modules/{vpc,security-group,ec2,rds}, backend/ (bootstrap/teardown),
               main.tf, variables.tf, outputs.tf, providers.tf, terraform.tfvars.example
-evidencias/   Evidências (docker, compose, terraform validate/plan; apply/destroy no dia da execução)
-              e prompts-log.md (log de prompts do Claude Code)
-specs/        SPEC, PLAN e TASKS (Spec-Driven Development)
+evidencias/   Evidências (docker, compose, terraform validate/plan/apply/destroy, arquitetura),
+              prompts-log.md (log de prompts do Claude Code) e specs/ (SPEC, PLAN, TASKS: Spec-Driven Development)
 relatorio.md  Relatório do processo com IA
 ```
 

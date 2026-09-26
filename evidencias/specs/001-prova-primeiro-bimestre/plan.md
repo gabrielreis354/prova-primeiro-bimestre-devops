@@ -33,7 +33,7 @@ Spec: `spec.md` (aprovada). Este plano é o COMO.
 ```
 prova-primeiro-bimestre-devops/
 ├── README.md  .gitignore  .env.example  docker-compose.yml  relatorio.md
-├── specs/001-prova-primeiro-bimestre/{spec.md,plan.md,tasks.md}
+├── evidencias/specs/001-prova-primeiro-bimestre/{spec.md,plan.md,tasks.md}
 ├── app/{package.json, Dockerfile, .dockerignore, smoke.sh, src/{index.js,db.js,routes/reservas.js}}
 ├── infra/
 │   ├── main.tf variables.tf outputs.tf providers.tf terraform.tfvars.example

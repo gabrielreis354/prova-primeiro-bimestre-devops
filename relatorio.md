@@ -34,7 +34,7 @@ A ordem seguiu a sugestão das Dicas do enunciado (Git e aplicação primeiro, d
 | 04 | VPC, networking e EC2 | Módulos `vpc`, `security-group` e `ec2` (subnets públicas e privadas, IGW, SGs) | `terraform-apply.txt` |
 | 05 | RDS e remote state | Módulo `rds` e backend S3 + DynamoDB (`infra/backend/`) | `seguranca-state.txt` |
 | 06 | Terraform Modules | Quatro módulos compostos por outputs e inputs (`main.tf`) | `terraform-plan.txt` |
-| 07 | Problemas complexos com IA (decomposição, Spec-Driven) | `specs/` (spec, plan, tasks), revisores subagentes, log de prompts | `specs/`, `prompts-log.md` |
+| 07 | Problemas complexos com IA (decomposição, Spec-Driven) | `evidencias/specs/` (spec, plan, tasks), revisores subagentes, log de prompts | `evidencias/specs/`, `prompts-log.md` |
 
 ## Questão 2 — O Processo com IA como Copiloto
 
@@ -50,7 +50,7 @@ Como dá para ver no prompt logs que eu vou pedir para ela colocar abaixo. A qua
 
 **O que a IA gerou bem** (com a evidência de cada ponto):
 
-- A SPEC, o PLAN e as TASKS estruturados, com critérios verificáveis (`specs/`).
+- A SPEC, o PLAN e as TASKS estruturados, com critérios verificáveis (`evidencias/specs/`).
 - A API com validação (400 e 404), o Dockerfile multi-stage não-root e o Compose com healthcheck; o mesmo `smoke.sh` foi usado no ambiente local, no Compose e contra o RDS na nuvem (`smoke-local.txt`, `compose-ps.txt`, `curl-crud-rds.txt`).
 - Os quatro módulos Terraform e a raiz: o `terraform validate` passou e o `plan` mostrou 19 recursos, sem IAM e sem NAT (`terraform-validate.txt`, `terraform-plan.txt`).
 - Scripts idempotentes de `bootstrap.sh` e `teardown.sh` para o backend, e a documentação das evidências e do log de prompts.
