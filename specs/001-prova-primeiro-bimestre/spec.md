@@ -57,23 +57,23 @@ Entregar, em repositório próprio (`prova-primeiro-bimestre-devops`), a API de 
 - Código simples (KISS/YAGNI), sem código gerado por IA aceito sem revisão.
 
 ## 6. Critérios de aceitação (verificáveis)
-- [ ] CA1: `git log` mostra ≥6 commits convencionais e um merge de feature branch; repo público com README (nome + RA) e `.gitignore` correto.
-- [ ] CA2: `docker build` conclui e o container responde em `/health`; `evidencias/docker-build.txt` gerado.
-- [ ] CA3: `docker compose up -d` sobe API + Postgres saudáveis; `docker compose ps` salvo em `evidencias/compose-ps.txt`.
-- [ ] CA4: Via curl, POST→GET→GET/:id→PUT→DELETE funcionam e os dados persistem após `docker compose restart` (volume).
-- [ ] CA5: GET/PUT/DELETE de id inexistente → 404; POST inválido → 400.
-- [ ] CA6: `terraform validate` e `terraform plan` sem erros; saída em `evidencias/terraform-plan.txt`.
-- [ ] CA7: Após `apply`, a API na EC2 grava/lê no RDS (CRUD verificado por curl na URL do output); RDS não acessível publicamente.
-- [ ] CA8: State no S3 com lock no DynamoDB; nenhum recurso IAM criado.
-- [ ] CA9: `terraform destroy` executado e `teardown.sh` do backend rodado só depois de capturar as evidências de state/lock; sem recursos remanescentes (verificado por `aws ... list`); saída em `evidencias/terraform-destroy.txt`.
+- [x] CA1: `git log` mostra ≥6 commits convencionais e um merge de feature branch; repo público com README (nome + RA) e `.gitignore` correto.
+- [x] CA2: `docker build` conclui e o container responde em `/health`; `evidencias/docker-build.txt` gerado.
+- [x] CA3: `docker compose up -d` sobe API + Postgres saudáveis; `docker compose ps` salvo em `evidencias/compose-ps.txt`.
+- [x] CA4: Via curl, POST→GET→GET/:id→PUT→DELETE funcionam e os dados persistem após `docker compose restart` (volume).
+- [x] CA5: GET/PUT/DELETE de id inexistente → 404; POST inválido → 400.
+- [x] CA6: `terraform validate` e `terraform plan` sem erros; saída em `evidencias/terraform-plan.txt`.
+- [x] CA7: Após `apply`, a API na EC2 grava/lê no RDS (CRUD verificado por curl na URL do output); RDS não acessível publicamente.
+- [x] CA8: State no S3 com lock no DynamoDB; nenhum recurso IAM criado.
+- [x] CA9: `terraform destroy` executado e `teardown.sh` do backend rodado só depois de capturar as evidências de state/lock; sem recursos remanescentes (verificado por `aws ... list`); saída em `evidencias/terraform-destroy.txt`.
 - [ ] CA10: `relatorio.md` completo (4 questões, ≥10 linhas cada, IA informada no início, reflete experiência real); `entrega.md` com nome, RA, data 01/10/2026, ferramenta (Claude Code), URL do repo, evidências coladas e os 13 itens do checklist marcados apenas quando os CA correspondentes passaram.
 - [ ] CA11: Nenhum push/PR/fork ao repo da disciplina antes de 01/10/2026; rascunho do `entrega.md` fica só no repo da prova (fora de `entregas/`).
 - [ ] CA12: PR único, contendo somente `entregas/provaPrimeiroBi/6325149/entrega.md`, aberto em 01/10/2026 após revisão final completa, sem commits posteriores.
-- [ ] CA13: `terraform output` mostra `ec2_public_ip`, `rds_endpoint`, `api_url`; recursos taggeáveis com tags (`default_tags`/`tags`).
-- [ ] CA14: SG do RDS na 5432 usa o SG da EC2 como origem e nenhum `0.0.0.0/0`; `aws s3api get-bucket-versioning/get-bucket-encryption` comprovam versionamento e SSE do bucket.
-- [ ] CA15: `git ls-files` não lista `.tfstate`, `.terraform/`, `.env`, `*.pem`, `*.tfvars`; merge da feature branch com `--no-ff` e `git log --graph` salvo em `evidencias/`.
-- [ ] CA16: Evidências completas em `evidencias/`: docker-build (+ `docker run`/`whoami` não-root e curl `/health`), compose-ps, terraform-validate, terraform-plan, terraform-apply/outputs, curl CRUD no RDS, terraform-destroy.
-- [ ] CA17: Estrutura do repo conforme RF16 (incluindo `.dockerignore`).
+- [x] CA13: `terraform output` mostra `ec2_public_ip`, `rds_endpoint`, `api_url`; recursos taggeáveis com tags (`default_tags`/`tags`).
+- [x] CA14: SG do RDS na 5432 usa o SG da EC2 como origem e nenhum `0.0.0.0/0`; `aws s3api get-bucket-versioning/get-bucket-encryption` comprovam versionamento e SSE do bucket.
+- [x] CA15: `git ls-files` não lista `.tfstate`, `.terraform/`, `.env`, `*.pem`, `*.tfvars`; merge da feature branch com `--no-ff` e `git log --graph` salvo em `evidencias/`.
+- [x] CA16: Evidências completas em `evidencias/`: docker-build (+ `docker run`/`whoami` não-root e curl `/health`), compose-ps, terraform-validate, terraform-plan, terraform-apply/outputs, curl CRUD no RDS, terraform-destroy.
+- [x] CA17: Estrutura do repo conforme RF16 (incluindo `.dockerignore`).
 
 ## 7. Riscos e questões em aberto
 - Tempo: 7 dias; Terraform/AWS é o maior risco → módulos prontos e plan no dia 5 (28/09), primeiro apply no dia 6 (29/09), dia 7 de buffer.

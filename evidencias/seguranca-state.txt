@@ -111,5 +111,9 @@ module.vpc.aws_vpc.this
 Itens da tabela durante um 'terraform plan -refresh-only' (lock/digest do state):
 technova-tfstate-6325149-<account-id>/prova/terraform.tfstate-md5
 
-Nota: o item de lock em si (LockID = "<bucket>/prova/terraform.tfstate") existe apenas durante a operação e não foi capturado
-nesta execução; o item "...-md5" acima é o digest do state que o backend S3 grava na mesma tabela, o que comprova o uso do DynamoDB.
+## Lock capturado (recaptura em 26/09/2026, com o backend recriado por bootstrap.sh)
+Na primeira captura só apareceu o digest "-md5": o meu loop parava no primeiro item da tabela, antes de o lock ser gravado.
+Recapturado esperando o item cujo LockID NÃO termina em "-md5", durante um `terraform plan -refresh-only` em segundo plano:
+  LockID    = <bucket>/prova/terraform.tfstate
+  Info      = {"Operation":"OperationTypePlan","Path":"<bucket>/prova/terraform.tfstate","Version":"1.15.9", ...}
+Comprova o locking via DynamoDB (o lock existe só enquanto a operação roda; o item "-md5" é o digest do state).

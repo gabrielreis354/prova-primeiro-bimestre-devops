@@ -268,3 +268,9 @@ Formato: português, conciso. 1) Tabela CA1–CA17 (veredito | evidência). 2) L
 - CA8: o item `LockID` em si não foi capturado (só o digest `-md5`); permanece declarado como limitação, sem fingir.
 - Pendentes por plano/decisão: push do repo (T40, com confirmação), marcar CAs na spec (T39), T20 com nota de duas execuções do backend.
 - Para a Q1/Q4 do relatório: datas reais (dias 2–5 em 25/09 e dia 6 em 26/09, antes do previsto) e o incidente do `apply -auto-approve` (P21).
+
+**P26** (26/09/2026)
+> Continue gravando os logs dos prompts que eu envio, verifique para corrigir os CAs parciais ou pendentes. Pode esccrever os .mds, mas nao finja ser eu, o que o enunciado pedir para o Aluno escrever pode me ajudar, mas deixa que eu escrevo
+
+→ IA: **Regra de autoria a partir daqui:** a IA pode escrever `.md` de apoio/técnicos (README, spec, tasks, entrega.md com dados e evidências), mas o texto dissertativo das 4 questões do `relatorio.md` é escrito pelo aluno, na voz dele; a IA só ajuda com fatos e ponteiros (`specs/001-prova-primeiro-bimestre/relatorio-apoio.md`, fora da entrega) e revisão, se pedida.
+→ CAs tratados: **CA8** (erro da IA: a captura do lock parava no primeiro item, o digest `-md5`) → backend recriado, recapturado o item de lock real (`OperationTypePlan`) durante um `plan -refresh-only`, backend removido e AWS conferida vazia; **CA4** e **CA9** já corrigidos no passo anterior (down/up sem `-v`; verificação pós-destroy literal). **CA10** segue pendente: falta o `relatorio.md` (do aluno); o rascunho do `entrega.md` foi gerado com o checklist marcado exceto o item do relatório. **CA12** é o PR de 01/10 (não pode ser antecipado). CA1–CA9 e CA13–CA17 marcados na spec; CA10–CA12 seguem abertos (CA11 vale até a entrega).
