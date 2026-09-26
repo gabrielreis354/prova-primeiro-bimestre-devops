@@ -1,18 +1,58 @@
-# Verificação pós-destroy e teardown — 2026-09-26 (esperado: tudo vazio)
-## EC2 (qualquer estado exceto terminated)
-## RDS
-## VPCs com tag do projeto
-## Volumes EBS
-## Elastic IPs
-## Interfaces de rede da prova
-## NAT Gateways ativos
-## Buckets technova
-## Tabelas DynamoDB
-## Recursos com tag Project=prova-primeiro-bimestre (API de tags)
-A API de tags (resourcegroupstaggingapi) é eventualmente consistente e ainda listou 8 ARNs logo após o destroy.
-Conferência direta por ID, que é a fonte confiável:
-- instância i-...: State = terminated
-- volume EBS: InvalidVolume.NotFound
-- regras de SG: InvalidSecurityGroupRuleId.NotFound
-- subnet: InvalidSubnetID.NotFound
-Sem filtro de tag, na conta: 0 instâncias ativas, 0 VPCs não padrão, 0 instâncias RDS; bucket e tabela do backend removidos.
+# Verificação pós-destroy e teardown — 2026-09-26, comandos somente leitura, saída literal (account-id mascarado)
+# Sequência executada antes: terraform destroy (19 destruídos) -> infra/backend/teardown.sh (bucket e tabela removidos)
+
+$ aws sts get-caller-identity --query Arn --output text
+arn:aws:sts::<account-id>:assumed-role/voclabs/user5367756=Gabriel_Reis_Cunha
+(exit=0)
+
+$ aws ec2 describe-instances --filters Name=instance-state-name,Values=pending,running,stopping,stopped,shutting-down --query Reservations[].Instances[].InstanceId --output json
+[]
+(exit=0)
+
+$ aws rds describe-db-instances --query DBInstances[].DBInstanceIdentifier --output json
+[]
+(exit=0)
+
+$ aws ec2 describe-vpcs --filters Name=is-default,Values=false --query Vpcs[].VpcId --output json
+[]
+(exit=0)
+
+$ aws ec2 describe-volumes --query Volumes[].VolumeId --output json
+[]
+(exit=0)
+
+$ aws ec2 describe-addresses --query Addresses[].AllocationId --output json
+[]
+(exit=0)
+
+$ aws ec2 describe-network-interfaces --query NetworkInterfaces[].NetworkInterfaceId --output json
+[]
+(exit=0)
+
+$ aws ec2 describe-nat-gateways --filter Name=state,Values=pending,available --query NatGateways[].NatGatewayId --output json
+[]
+(exit=0)
+
+$ aws s3api list-buckets --query Buckets[].Name --output json
+[]
+(exit=0)
+
+$ aws dynamodb list-tables --query TableNames --output json
+[]
+(exit=0)
+
+# Conferência por ID dos ARNs que a API de tags (eventualmente consistente) ainda listava:
+
+$ aws ec2 describe-instances --instance-ids i-00e427484dd4f3867 --query Reservations[].Instances[].[InstanceId,State.Name] --output text
+i-00e427484dd4f3867	terminated
+(exit=0)
+
+$ aws ec2 describe-volumes --volume-ids vol-04386f4004e34043d
+
+aws: [ERROR]: An error occurred (InvalidVolume.NotFound) when calling the DescribeVolumes operation: The volume 'vol-04386f4004e34043d' does not exist.
+(exit=254)
+
+$ aws ec2 describe-subnets --subnet-ids subnet-0d47739f9aa3f2bff
+
+aws: [ERROR]: An error occurred (InvalidSubnetID.NotFound) when calling the DescribeSubnets operation: The subnet ID 'subnet-0d47739f9aa3f2bff' does not exist
+(exit=254)

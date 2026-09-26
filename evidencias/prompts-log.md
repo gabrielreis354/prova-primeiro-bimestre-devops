@@ -123,15 +123,36 @@ Português, conciso. Não repita o que está correto além da tabela.
 ```
 Você é um revisor crítico independente. Tarefa SOMENTE DE LEITURA: NÃO edite nem crie arquivos, NÃO rode comandos AWS/Terraform/Docker nem qualquer comando com efeito colateral (git só leitura: log, status, ls-files, diff, show). Não imprima segredos.
 
-Contexto: prova de DevOps (API de Reservas) do aluno Gabriel Reis Cunha. Repositório: /mnt/c/Users/gabri/unifaat_4sem/prova-primeiro-bimestre-devops (branch feature/api-reservas). Fonte da verdade: o enunciado em /mnt/c/Users/gabri/unifaat_4sem/devops_20262/provas/prova-primeiro-bimestre.md (leia INTEIRO). Documentos de apoio em specs/001-prova-primeiro-bimestre/{spec.md,plan.md,tasks.md}.
+Contexto: prova de DevOps (API de Reservas) do aluno Gabriel Reis Cunha. Repositório: /mnt/c/Users/gabri/unifaat_4sem/prova-primeiro-bimestre-devops (branch feature/api-reservas). Fonte da verdade: o enunciado em /mnt/c/Users/gabri/unifaat_4sem/devops_20262/provas/prova-primeiro-bimestre.md (leia INTEIRO: requisitos das Partes 1-6, estrutura do repositório, checklist do entrega.md, regras 1-10, dicas). Documentos de apoio em specs/001-prova-primeiro-bimestre/{spec.md,plan.md,tasks.md}.
 
 Faça:
-1. Leia o README.md COMPLETO e confira cada afirmação contra o que existe no repo (rotas, campos, enum de status, estrutura, "Como rodar localmente", seção "Infraestrutura AWS"). Aponte o desatualizado, incorreto, faltando ou que promete algo que não existe. Confira a exigência do enunciado (nome, RA, descrição) e se as instruções funcionariam para quem clona o repo.
-2. Revise o estado do repo contra o enunciado (app/, docker-compose.yml, .env.example, .gitignore, infra/ com módulos, providers.tf, backend/, evidencias/), incluindo RDS privado/criptografado, SGs, EC2 t2.micro com LabInstanceProfile, sem IAM, tags, outputs, composição, remote state.
-3. Procure vazamentos (arquivos proibidos no git ls-files; senhas, account-id de 12 dígitos, tokens em arquivos versionados e evidências).
-4. Verifique consistência entre commits (Conventional Commits, mínimo 6, feature branch) e entre spec/plan/tasks e a implementação (tasks [x] sem evidência real).
+1. Leia o README.md do repositório COMPLETO e confira cada afirmação dele contra o que realmente existe no repo (rotas, campos, enum de status, estrutura de pastas, instruções "Como rodar localmente", seção "Infraestrutura AWS"). Aponte o que está desatualizado, incorreto, faltando ou que promete algo que não existe. Confira também se atende à exigência do enunciado (nome, RA, descrição do projeto) e se as instruções de execução funcionariam para alguém que clona o repo (.env.example, portas, comandos).
+2. Revise o estado atual do repo contra o enunciado, com foco no que já foi feito até o dia 5: app/ (src, package.json, Dockerfile multi-stage não-root, .dockerignore), docker-compose.yml (volume nomeado, rede bridge customizada, healthcheck no banco, depends_on com condition), .env.example, .gitignore (node_modules, .env, .terraform, *.tfstate, *.pem e demais), infra/ (módulos vpc, security-group, ec2, rds; providers.tf com backend s3 e default_tags; variables/main/outputs; backend/bootstrap.sh e teardown.sh), evidencias/. Verifique: RDS publicly_accessible=false, storage_encrypted=true, db_subnet_group com subnets privadas, SG do RDS (5432 só a partir do SG da EC2, sem 0.0.0.0/0), SG da EC2 (22 e 3000), EC2 t2.micro com LabInstanceProfile, sem IAM criado, tags, outputs (IP da EC2, endpoint do RDS, URL da API), composição entre módulos, remote state S3+DynamoDB.
+3. Procure vazamentos: `git ls-files` não deve listar .env, *.tfstate, .terraform/, *.pem, *.tfvars, backend.hcl; procure senhas, account-id de 12 dígitos, tokens ou chaves AWS nos arquivos versionados e nas evidências (evidencias/*.txt, prompts-log.md).
+4. Verifique consistência entre commits (Conventional Commits, mínimo 6, feature branch) e entre spec/plan/tasks e o que foi de fato implementado (ex.: tasks marcadas [x] sem evidência real).
 
-Responda em português, lista priorizada (CRÍTICO / IMPORTANTE / MENOR) com arquivo/linha, problema, exigência do enunciado e correção; depois "Confirmado OK" só com o verificado. Não invente; seja conciso.
+Responda em português, lista priorizada (CRÍTICO / IMPORTANTE / MENOR), cada item com: arquivo e linha, o problema, o que o enunciado exige (quando aplicável) e a correção sugerida. Depois, uma seção curta "Confirmado OK" só com o que você de fato verificou. Não invente: se não conseguiu verificar algo, diga. Seja conciso.
+```
+
+**B5 — auditor de CAs, regras e SPEC (dias 1 a 6)**
+```
+Você é um auditor crítico independente. Tarefa SOMENTE DE LEITURA: NÃO edite nem crie arquivos no repositório, NÃO rode comandos AWS, Terraform (init/plan/apply/destroy), nem Docker que suba/derrube algo. Permitido: ler arquivos, `git log/status/ls-files/show/diff/ls-tree`, `bash -n`, `docker compose config -q`, grep. Não imprima segredos.
+
+Contexto: prova de DevOps do aluno Gabriel Reis Cunha (RA 6325149), "API de Reservas" TechNova. Repositório: /mnt/c/Users/gabri/unifaat_4sem/prova-primeiro-bimestre-devops (branch main; há commits locais ainda não enviados ao GitHub, e o remoto é https://github.com/gabrielreis354/prova-primeiro-bimestre-devops). Estado esperado: dias 1 a 6 concluídos (tasks T01–T36); a AWS já foi destruída e o backend removido (não tente consultar a AWS; use as evidências salvas). Ainda PENDENTES POR PLANO, e portanto não são falha: relatorio.md final (hoje é só rascunho, T37), rascunho do entrega.md (T38), auditoria final/tag v1.0 (T39–T40) e o PR do dia 01/10/2026 (T41).
+
+Fontes da verdade, leia INTEIRAS:
+1. Enunciado: /mnt/c/Users/gabri/unifaat_4sem/devops_20262/provas/prova-primeiro-bimestre.md (requisitos das Partes 1–6, estrutura do repo, checklist do entrega.md, 10 regras, dicas, critérios/pesos).
+2. SPEC, PLAN e TASKS: specs/001-prova-primeiro-bimestre/{spec.md,plan.md,tasks.md} (RF1–RF21, CA1–CA17, decisões).
+3. O que foi feito: app/, docker-compose.yml, .env.example, .gitignore, infra/ (modules vpc/security-group/ec2/rds, main/variables/outputs/providers.tf, backend/bootstrap.sh e teardown.sh, .terraform.lock.hcl), evidencias/*, README.md, relatorio.md, evidencias/prompts-log.md.
+
+Faça:
+A. Para CADA critério CA1 a CA17 da SPEC, dê um veredito: OK / PARCIAL / FALHA / PENDENTE-POR-PLANO, citando a evidência concreta (arquivo e trecho, ou saída de git) que sustenta o veredito. Não aceite "está marcado [x]" como prova: confira o arquivo de evidência ou o código.
+B. Para CADA regra 1–10 do enunciado e cada exigência das Partes 1–6 e do checklist do entrega.md, diga se o estado atual as atende ou está no caminho (com base no que existe), apontando riscos concretos de violação (ex.: PR antes de 01/10, IAM criado, .gitignore, evidências com segredo, recursos remanescentes).
+C. Confira RF1–RF21 da SPEC contra o código: rotas e validações (400/404), Dockerfile multi-stage e não-root, Compose (volume nomeado, rede bridge, healthcheck no banco, depends_on com condition), SGs (5432 só do SG da EC2, sem 0.0.0.0/0; 22 restrito), RDS (publicly_accessible=false, storage_encrypted=true, db_subnet_group privado, db.t3.micro), EC2 t2.micro com LabInstanceProfile, remote state S3+DynamoDB, composição entre módulos, tags, outputs, bootstrap/teardown.
+D. Procure vazamentos e inconsistências: `git ls-files` proibidos (.env, *.tfstate, .terraform/, *.pem, *.tfvars, backend.hcl, tfplan); senhas, tokens, account-id de 12 dígitos, IP pessoal do aluno nas evidências e no prompts-log.md; datas erradas nas evidências; evidências que contradizem o que as tasks dizem; tasks [x] sem prova; divergência entre o README e a realidade; consistência do histórico Git (Conventional Commits, mínimo 6, merge --no-ff da feature branch).
+E. Compare o plano de execução dos dias 1–6 com o cronograma do PLAN e liste desvios (por exemplo o dia 6 rodou antes da data prevista) e se algum guardrail de custo da SPEC/PLAN foi violado ou está sem prova.
+
+Formato: português, conciso. 1) Tabela CA1–CA17 (veredito | evidência). 2) Lista priorizada CRÍTICO / IMPORTANTE / MENOR só com problemas reais, cada um com arquivo/linha, o que a prova ou a SPEC exige e a correção sugerida. 3) "Não consegui verificar" com o que ficou de fora e por quê. Não invente e não repita o que está correto além da tabela.
 ```
 
 ---
@@ -232,3 +253,18 @@ Responda em português, lista priorizada (CRÍTICO / IMPORTANTE / MENOR) com arq
 → IA: `terraform apply tfplan` (exatamente o plano revisado) em segundo plano, com log; **19 criados**, RDS em 5m19s. A API na EC2 respondeu `/health` em ~51 s. `smoke.sh` contra `api_url` passou em todos os casos e uma reserva foi gravada e lida do RDS (`evidencias/curl-crud-rds.txt`). Evidências de segurança/state em `evidencias/seguranca-state.txt` (RDS privado e criptografado, subnets privadas, SGs, 5432 inacessível de fora, state list sem IAM, state no S3 versionado/SSE/block public access, tabela DynamoDB). Em seguida `terraform plan -destroy -out` (19 a destruir) e `apply` do plano de destruição, depois `teardown.sh`.
 → Erros/correções da IA neste passo: (1) o `| head -90` cortou a evidência de segurança no meio (SIGPIPE) → seções finais regeradas e anexadas; (2) o IP real do aluno apareceu nas regras de SG porque o mascaramento cobria só um IP fictício → mascarado antes do commit; (3) o arquivo de verificação pós-destroy gravou o account-id sem máscara → mascarado; (4) o item de lock em si não foi capturado (só o digest `-md5` do state) → declarado na evidência, sem fingir; (5) a API de tags ainda listou 8 ARNs pós-destroy → conferido por ID (instância `terminated`, demais `NotFound`; 0 instâncias, 0 VPCs não padrão, 0 RDS).
 → Custo: recursos ativos entre o `apply` e o `destroy` (~25 min); tudo destruído e backend removido no mesmo dia, conforme a regra absoluta.
+
+**P25** (26/09/2026)
+> Pode disparar um subagent com o contexto da prova, com as regras, os detalhes da SPEC, os CAs para validar tudo o que foi feito até agora
+
+→ IA: disparou um auditor independente e somente leitura (ver B5). Resultado registrado abaixo quando chegar.
+
+→ Resultado (auditor B5, conferido pela IA): nenhuma violação de regra da prova nem vazamento (sem `.env`, tfstate, `tfplan`, senha, token, account-id ou IP do aluno versionados; RF1–RF21 batem com o código; nenhum IAM; sem NAT). CA1–CA3, CA5–CA7, CA11, CA13–CA17 OK; CA4, CA8 e CA9 PARCIAIS; CA10 e CA12 pendentes por plano. Problemas reais e correções (a IA verificou cada um antes de agir):
+- **CA9 / verificação pós-destroy fraca (erro da IA):** o arquivo tinha só cabeçalhos sem saída literal → regerado com comandos e saída literal (tudo `[]`), mais conferência por ID (instância `terminated`, volume/subnet `NotFound`).
+- **CA4 / persistência (erro da IA):** `docker compose restart` não recria containers e não distingue o volume → refeito com `down` (sem `-v`) + `up -d`; as reservas sobreviveram, evidência anexada em `compose-ps.txt`.
+- **Guardrail do dia 6 só em prosa** → linha com data e resultado em `aws-precheck.txt`.
+- **B4 e B5 resumidos no log, contra o cabeçalho "literais" (erro da IA)** → substituídos pelo texto exato enviado.
+- Menores corrigidos: máscara que atingiu um id de regra de SG (`sgr-<mascarado>`), linha `0` solta legendada, teste de acesso ao RDS anotado com o comando usado, `infra/tfplan` (senha em binário) apagado.
+- CA8: o item `LockID` em si não foi capturado (só o digest `-md5`); permanece declarado como limitação, sem fingir.
+- Pendentes por plano/decisão: push do repo (T40, com confirmação), marcar CAs na spec (T39), T20 com nota de duas execuções do backend.
+- Para a Q1/Q4 do relatório: datas reais (dias 2–5 em 25/09 e dia 6 em 26/09, antes do previsto) e o incidente do `apply -auto-approve` (P21).

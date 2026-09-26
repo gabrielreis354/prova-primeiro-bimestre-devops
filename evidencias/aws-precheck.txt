@@ -7,3 +7,8 @@ $ aws ec2 describe-instance-type-offerings (t2.micro)   -> disponível em us-eas
 $ aws ssm get-parameter /aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64  -> AMI AL2023 resolvida
 $ aws ec2 describe-key-pairs   -> vockey (existente)
 $ aws iam get-instance-profile --instance-profile-name LabInstanceProfile   -> existente
+
+# Guardrail do dia 6 (26/09/2026), antes do apply e repetido antes do destroy/teardown
+$ aws sts get-caller-identity --query Arn   -> arn:aws:sts::<account-id>:assumed-role/voclabs/... (role do Lab; NÃO é root)
+$ echo $AWS_DEFAULT_REGION   -> us-east-1
+Recursos da prova pré-existentes (EC2/RDS/S3 technova/DynamoDB): nenhum

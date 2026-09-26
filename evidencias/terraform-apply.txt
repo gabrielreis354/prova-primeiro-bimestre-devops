@@ -30,7 +30,7 @@ module.sg_ec2.aws_vpc_security_group_egress_rule.all: Creating...
 module.sg_ec2.aws_vpc_security_group_ingress_rule.this["api"]: Creating...
 module.sg_ec2.aws_vpc_security_group_ingress_rule.this["api"]: Creation complete after 1s [id=sgr-08fe4b01866635255]
 module.sg_ec2.aws_vpc_security_group_ingress_rule.this["ssh"]: Creation complete after 1s [id=sgr-0c2fb9253c1182e81]
-module.sg_ec2.aws_vpc_security_group_egress_rule.all: Creation complete after 1s [id=sgr-<account-id>35178]
+module.sg_ec2.aws_vpc_security_group_egress_rule.all: Creation complete after 1s [id=sgr-<mascarado>]
 module.sg_rds.aws_vpc_security_group_ingress_rule.this["postgres"]: Creation complete after 1s [id=sgr-0b4f25153874f8ce3]
 module.vpc.aws_route_table.public: Creation complete after 2s [id=rtb-0f2e29efc18f8adf8]
 module.sg_rds.aws_vpc_security_group_egress_rule.all: Creation complete after 1s [id=sgr-01faa3ea25e2629cd]

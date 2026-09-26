@@ -58,7 +58,7 @@ i-00e427484dd4f3867	t2.micro	arn:aws:iam::<account-id>:instance-profile/LabInsta
 ]
 
 ## RDS não é acessível de fora (tentativa TCP 5432 a partir da máquina do aluno)
-conexão recusada/timeout, como esperado
+conexão recusada/timeout, como esperado  (teste: bash -c "</dev/tcp/HOST_RDS/5432" com timeout de 6s; sem saída além do código de retorno)
 
 ## terraform state list (nenhum recurso IAM)
 module.ec2.data.aws_ssm_parameter.al2023
@@ -81,7 +81,7 @@ module.vpc.aws_subnet.private[1]
 module.vpc.aws_subnet.public[0]
 module.vpc.aws_subnet.public[1]
 module.vpc.aws_vpc.this
-0
+0   <- linhas "aws_iam" em terraform state list (grep -c)
 
 ## State remoto no S3
 2026-09-26 10:37:54      43106 prova/terraform.tfstate
