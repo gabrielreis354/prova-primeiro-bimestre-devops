@@ -39,7 +39,16 @@ relatorio.md  Relatório do processo com IA
 
 ## Como rodar localmente
 
-> Preenchido conforme as etapas de Docker e Compose forem concluídas.
+Pré-requisito: Docker com Compose v2.
+
+```bash
+cp .env.example .env        # ajuste DB_PASSWORD (e API_PORT se a 3000 estiver ocupada)
+docker compose up -d --build
+docker compose ps           # api e db devem ficar (healthy)
+curl http://localhost:3000/health
+bash app/smoke.sh           # CRUD completo + casos de erro (BASE_URL=... para outra porta)
+docker compose down         # mantém o volume pgdata; use -v para apagar os dados
+```
 
 ## Infraestrutura AWS
 
