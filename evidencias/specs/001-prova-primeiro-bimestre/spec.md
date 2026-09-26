@@ -66,7 +66,7 @@ Entregar, em repositório próprio (`prova-primeiro-bimestre-devops`), a API de 
 - [x] CA7: Após `apply`, a API na EC2 grava/lê no RDS (CRUD verificado por curl na URL do output); RDS não acessível publicamente.
 - [x] CA8: State no S3 com lock no DynamoDB; nenhum recurso IAM criado.
 - [x] CA9: `terraform destroy` executado e `teardown.sh` do backend rodado só depois de capturar as evidências de state/lock; sem recursos remanescentes (verificado por `aws ... list`); saída em `evidencias/terraform-destroy.txt`.
-- [ ] CA10: `relatorio.md` completo (4 questões, ≥10 linhas cada, IA informada no início, reflete experiência real); `entrega.md` com nome, RA, data 01/10/2026, ferramenta (Claude Code), URL do repo, evidências coladas e os 13 itens do checklist marcados apenas quando os CA correspondentes passaram.
+- [x] CA10: `relatorio.md` completo (4 questões, ≥10 linhas cada, IA informada no início, reflete experiência real); `entrega.md` com nome, RA, data 01/10/2026, ferramenta (Claude Code), URL do repo, evidências coladas e os 13 itens do checklist marcados apenas quando os CA correspondentes passaram.
 - [ ] CA11: Nenhum push/PR/fork ao repo da disciplina antes de 01/10/2026; rascunho do `entrega.md` fica só no repo da prova (fora de `entregas/`).
 - [ ] CA12: PR único, contendo somente `entregas/provaPrimeiroBi/6325149/entrega.md`, aberto em 01/10/2026 após revisão final completa, sem commits posteriores.
 - [x] CA13: `terraform output` mostra `ec2_public_ip`, `rds_endpoint`, `api_url`; recursos taggeáveis com tags (`default_tags`/`tags`).

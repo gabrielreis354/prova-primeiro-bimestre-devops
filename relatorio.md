@@ -81,7 +81,7 @@ Como dá para ver no prompt logs que eu vou pedir para ela colocar abaixo. A qua
 
 *Bloco inserido pela IA a pedido do aluno; os prompts estão exatamente como foram enviados, com os erros de digitação originais.*
 
-Números do log: o aluno enviou 27 prompts ao modelo. Na fase de levantamento, Spec, Plan e Tasks (P02 a P10) foram 9 prompts, acompanhados de 3 prompts longos que a IA enviou a subagentes revisores (B1 a B3, com 207, 211 e 162 palavras). Na implementação dos dias 2 a 4 (P12 a P16) os prompts do aluno tiveram em média 4 palavras, porque a IA só seguia as tasks já aprovadas.
+Números do log até o P34 (auditoria final): o aluno enviou 33 prompts ao modelo. Na fase de levantamento, Spec, Plan e Tasks (P02 a P10) foram 9 prompts, acompanhados de 3 prompts longos que a IA enviou a subagentes revisores (B1 a B3, com 207, 211 e 162 palavras). Na implementação dos dias 2 a 4 (P12 a P16) os prompts do aluno tiveram em média 4 palavras, porque a IA só seguia as tasks já aprovadas.
 
 | Fase | Prompt do aluno (literal) | Efeito |
 |---|---|---|

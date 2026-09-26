@@ -22,7 +22,7 @@
 - [x] Remote State configurado (S3 + DynamoDB)
 - [x] Uso de LabRole/LabInstanceProfile (sem criar IAM próprio)
 - [x] terraform validate e terraform plan sem erros
-- [ ] relatorio.md completo (4 questões)
+- [x] relatorio.md completo (4 questões)
 - [x] terraform destroy executado após evidências
 
 ## Evidências
@@ -132,7 +132,7 @@ SMOKE OK: todos os testes passaram.
 ### RDS privado e criptografado
 
 ```
-## RDS (banco da API na nuvem)
+RDS (banco da API na nuvem)
 --------------------------------------------------------
 |                  DescribeDBInstances                 |
 +---------------------+--------------------------------+
@@ -155,7 +155,7 @@ subnet-0812f236656f4211c	us-east-1b	False	private
 ### Security Groups (5432 só a partir do SG da EC2)
 
 ```
-## Security Groups (regras de entrada)
+Security Groups (regras de entrada)
 [
     {
         "Nome": "technova-reservas-rds-sg",
@@ -189,6 +189,75 @@ subnet-0812f236656f4211c	us-east-1b	False	private
         ]
     }
 ]
+```
+
+### LabInstanceProfile e nenhum recurso IAM criado
+
+```
+EC2: id | tipo | instance profile | IP | key pair
+i-00e427484dd4f3867	t2.micro	arn:aws:iam::<account-id>:instance-profile/LabInstanceProfile	184.73.36.174	vockey
+
+terraform state list (nenhum recurso IAM)
+module.ec2.data.aws_ssm_parameter.al2023
+module.ec2.aws_instance.this
+module.rds.aws_db_instance.this
+module.rds.aws_db_subnet_group.this
+module.sg_ec2.aws_security_group.this
+module.sg_ec2.aws_vpc_security_group_egress_rule.all
+module.sg_ec2.aws_vpc_security_group_ingress_rule.this["api"]
+module.sg_ec2.aws_vpc_security_group_ingress_rule.this["ssh"]
+module.sg_rds.aws_security_group.this
+module.sg_rds.aws_vpc_security_group_egress_rule.all
+module.sg_rds.aws_vpc_security_group_ingress_rule.this["postgres"]
+module.vpc.aws_internet_gateway.this
+module.vpc.aws_route_table.public
+module.vpc.aws_route_table_association.public[0]
+module.vpc.aws_route_table_association.public[1]
+module.vpc.aws_subnet.private[0]
+module.vpc.aws_subnet.private[1]
+module.vpc.aws_subnet.public[0]
+module.vpc.aws_subnet.public[1]
+module.vpc.aws_vpc.this
+0   <- linhas "aws_iam" em terraform state list (grep -c)
+```
+
+### Remote state: S3 (versionado e criptografado) + DynamoDB (lock)
+
+```
+State remoto no S3
+2026-09-26 10:37:54      43106 prova/terraform.tfstate
+
+Bucket do state: versionamento, criptografia, block public access
+{
+    "Status": "Enabled"
+}
+{
+    "SSEAlgorithm": "AES256"
+}
+{
+    "BlockPublicAcls": true,
+    "IgnorePublicAcls": true,
+    "BlockPublicPolicy": true,
+    "RestrictPublicBuckets": true
+}
+
+DynamoDB de lock
+-------------------------------------------------------
+|                    DescribeTable                    |
++--------+-------------------+------+---------+-------+
+|  Chave |       Nome        | RCU  | Status  |  WCU  |
++--------+-------------------+------+---------+-------+
+|  LockID|  technova-tflock  |  1   |  ACTIVE |  1    |
++--------+-------------------+------+---------+-------+
+Itens da tabela durante um 'terraform plan -refresh-only' (lock/digest do state):
+technova-tfstate-6325149-<account-id>/prova/terraform.tfstate-md5
+
+Lock capturado (recaptura em 26/09/2026, com o backend recriado por bootstrap.sh)
+Na primeira captura só apareceu o digest "-md5": o meu loop parava no primeiro item da tabela, antes de o lock ser gravado.
+Recapturado esperando o item cujo LockID NÃO termina em "-md5", durante um `terraform plan -refresh-only` em segundo plano:
+  LockID    = <bucket>/prova/terraform.tfstate
+  Info      = {"Operation":"OperationTypePlan","Path":"<bucket>/prova/terraform.tfstate","Version":"1.15.9", ...}
+Comprova o locking via DynamoDB (o lock existe só enquanto a operação roda; o item "-md5" é o digest do state).
 ```
 
 ### terraform destroy
