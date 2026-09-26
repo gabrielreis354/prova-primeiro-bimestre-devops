@@ -129,3 +129,10 @@ Português, conciso. Não repita o que está correto além da tabela.
 ---
 
 ## D. Continuação (prompts a partir de P11 são anexados abaixo, literais, a cada turno)
+
+**P11** (25/09/2026)
+> O tf07 foi finalizado e nele tem API que nesse caso tambem pede na prova valide a API da aula 07 de acordo com os requisitos da API da prova e valide se ela pode ser usada
+
+→ IA: localizou o TF/API da Aula 07 e validou contra os requisitos da API da prova (ver abaixo, resultado registrado após a análise).
+
+→ Resultado (IA): a API da Aula 07 (`entregas/aula-07/6325149/server.js`, Reserva de Salas, em memória) **não atende** a API da prova: rotas, campos e persistência divergem. Decisão: **não reutilizar o código**; reaproveitar apenas padrões (Express, validação manual, códigos 400/404). Detalhes na resposta ao aluno e em `specs/001-prova-primeiro-bimestre/api-aula07-analise.md`.
