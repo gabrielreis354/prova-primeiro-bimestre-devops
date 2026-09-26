@@ -45,7 +45,7 @@ Convenção de commit: Conventional Commits com corpo (o quê + porquê) + `Co-A
 - [x] T29 ⚠️ **Confirmação sua:** criar repo público `prova-primeiro-bimestre-devops` no GitHub e `git push --tags`. (Não é o repo da disciplina.) **V:** `git ls-files` sem proibidos; URL abre.
 
 ## Dia 6 — 29/09: Apply, evidências e destroy (RF19, CA7, CA9, CA16) — 🛑 destruir logo após
-- [ ] T30 🛑 Guardrail T18 novamente; senha descartável via `TF_VAR_db_password`; `TF_VAR_ssh_cidr` = seu IP/32. **V:** identidade e variáveis ok.
+- [ ] T30 🛑 Guardrail T18 novamente; senha descartável via `TF_VAR_db_password`; `TF_VAR_ssh_cidr` = seu IP/32. **V:** identidade e variáveis ok. **Tentativa de 26/09 interrompida antes de criar recursos (apply sem plano revisado); backend removido. Refazer com `plan -out` revisado + `apply tfplan`.**
 - [ ] T31 `terraform apply`. **V:** outputs; `evidencias/terraform-apply.txt` (revisar segredos).
 - [ ] T32 Aguardar boot; `curl api_url/health`; `smoke.sh` contra `api_url`. **V:** `evidencias/curl-crud-rds.txt`. Se falhar: `get-console-output`/SSH com `vockey`.
 - [ ] T33 Evidências de segurança/state: `describe-db-instances` (`PubliclyAccessible=false`, `StorageEncrypted=true`), `describe-security-groups`, `terraform state list`, `s3 ls` do state, `describe-table`, prova de não haver IAM criado. **V:** arquivos em `evidencias/`.
