@@ -25,10 +25,10 @@ Convenção de commit: Conventional Commits com corpo (o quê + porquê) + `Co-A
 - [x] T13 Commit `feat(docker): adiciona Dockerfile multi-stage e dockerignore`.
 
 ## Dia 4 — 27/09: Compose (RF10, RF20, CA3, CA4)
-- [ ] T14 `.env.example` (sem senhas reais) e `.env` local ignorado. **V:** `git ls-files | grep .env` só mostra `.env.example`.
-- [ ] T15 `docker-compose.yml`: `db` (postgres:16-alpine, volume nomeado `pgdata`, `pg_isready`), `api` (`depends_on: condition: service_healthy`), rede `reservas-net` com `driver: bridge` explícito. **V:** `docker compose config`; após subir, `docker network inspect` mostra driver bridge.
-- [ ] T16 `docker compose up -d --build`; `smoke.sh`; `docker compose restart`; confirmar persistência. **V:** salvar `evidencias/compose-ps.txt`.
-- [ ] T17 Commit `feat(compose): adiciona ambiente local API + PostgreSQL`.
+- [x] T14 `.env.example` (sem senhas reais) e `.env` local ignorado. **V:** `git ls-files | grep .env` só mostra `.env.example`.
+- [x] T15 `docker-compose.yml`: `db` (postgres:16-alpine, volume nomeado `pgdata`, `pg_isready`), `api` (`depends_on: condition: service_healthy`), rede `reservas-net` com `driver: bridge` explícito. **V:** `docker compose config`; após subir, `docker network inspect` mostra driver bridge.
+- [x] T16 `docker compose up -d --build`; `smoke.sh`; `docker compose restart`; confirmar persistência. **V:** salvar `evidencias/compose-ps.txt`.
+- [x] T17 Commit `feat(compose): adiciona ambiente local API + PostgreSQL`.
 
 ## Dia 5 — 28/09: Terraform e backend (RF11–RF19, CA6, CA8, CA13, CA14)
 - [ ] T18 🛑 Guardrail: `aws sts get-caller-identity` (abortar se root; confirmar LabRole/usuário do Lab) e região `us-east-1`. **V:** saída sem `:root`.

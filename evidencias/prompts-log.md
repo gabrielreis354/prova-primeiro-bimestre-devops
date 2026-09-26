@@ -151,3 +151,13 @@ Português, conciso. Não repita o que está correto além da tabela.
 > siga para o dia 3
 
 → IA: executa T11–T13 (Dockerfile multi-stage, .dockerignore, evidências de build/execução).
+
+**P15** (25/09/2026)
+> Se ambiente do contexto, spec, planejamento e regras dessas provas e guarde esse prompt no log de prompts. Estamos para comecar o 4 dia
+
+→ IA: releu o enunciado da prova, `spec.md`, `plan.md`, `tasks.md`, README e este log; conferiu o estado do repo (branch `feature/api-reservas`, árvore limpa, T01–T13 concluídas) e do ambiente (Docker 29 / Compose v2.40 ok, Terraform 1.15.9 ok, credenciais AWS atuais inválidas — irrelevante até o dia 5). Resumo devolvido ao aluno; nenhuma alteração de código. Dia 4 = T14–T17 (Compose).
+
+**P16** (25/09/2026)
+> siga para o dia 4
+
+→ IA: executou T14–T17. Gerou `.env.example`, `.env` local (ignorado) e `docker-compose.yml` (db postgres:16-alpine com volume `pgdata` e `pg_isready`; api com `depends_on: service_healthy`; rede `reservas-net` bridge explícita). Decisões da IA: porta da API configurável (`API_PORT`), pois a 3000 do host é usada por outra aplicação; banco sem porta publicada no host; `DB_PASSWORD` obrigatória (`:?`) para falhar cedo. Verificado: `docker compose config`, `up -d --build`, ambos `healthy`, `smoke.sh` verde, dado criado sobrevive a `docker compose restart`, network com driver bridge. Evidência em `evidencias/compose-ps.txt`. *Correção:* a primeira captura do `ps` pós-restart mostrou `health: starting`; recapturada já saudável. README atualizado com "Como rodar".
