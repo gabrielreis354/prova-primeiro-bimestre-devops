@@ -279,3 +279,8 @@ Formato: português, conciso. 1) Tabela CA1–CA17 (veredito | evidência). 2) L
 > repasse o entrega.md comigo
 
 → IA: releu o rascunho do `entrega.md` contra o modelo do enunciado e as evidências, e o percorreu com o aluno item a item (resumo na resposta; ver abaixo o que foi ajustado).
+
+**P28** (26/09/2026)
+> A
+
+→ IA: opção A, manter o `entrega.md` como está (Claude Code, IP/endpoint mortos na evidência, 229 linhas com evidências completas); nenhum ajuste pedido nos itens 3, 4 ou 5. Item "relatorio.md completo" segue desmarcado até o aluno escrever o relatório.
