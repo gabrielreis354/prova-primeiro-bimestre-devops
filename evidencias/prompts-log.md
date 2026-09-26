@@ -336,3 +336,8 @@ Formato: português, conciso. 1) Tabela CA1–CA17 (veredito | evidência). 2) L
 > Eu li e suas suiugestões de correção são validas e estão corretas pode prosseguir com elas e depois fazer o commit
 
 → IA: aplicou no `relatorio.md` as 3 sugestões aprovadas, mexendo só nos pontos indicados: (1) declaração única de apoio da IA no cabeçalho e remoção das duas legendas "Bloco inserido pela IA"; (2) frase de abertura da Q3 trocada por "O diagrama ... está no fim desta questão", seção retitulada "Detalhes e evidências" e linhas em branco extras removidas; (3) Q4 com o caso real do `apply -auto-approve` e a ligação de cada camada com uma verificação concreta (as frases em 1ª pessoa foram aprovadas pelo aluno, e "optei por interromper e limpar" corresponde ao P22). Conferido: fences balanceadas, diagrama renderiza, Q4 de 296 para 421 palavras. A IA ajustou um detalhe na redação sugerida: o `git check-ignore` (não "o Git") é quem mostrou o `tfplan` fora do `.gitignore`. Commit feito; tag `v1.0` e push seguem pendentes.
+
+**P37** (26/09/2026)
+> pode criar a tag v1.0 e fazer o push
+
+→ IA: pré-checagem (nenhum arquivo proibido; nenhum vazamento real, um falso positivo em hash do `.terraform.lock.hcl`; histórico limpo; `origin/main` ancestral da `main`, ou seja, push sem force), commit deste registro, tag anotada `v1.0` neste commit e push de `main` e da tag `v1.0`. **Congelamento:** este é o último commit do repositório antes do PR de 01/10; a verificação do remoto é reportada no chat, não neste arquivo, para não criar commit depois da tag.
