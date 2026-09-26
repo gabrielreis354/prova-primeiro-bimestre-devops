@@ -1,46 +1,46 @@
 # TASKS: Prova do 1º Bimestre — API de Reservas
 
 Spec e Plan aprovados. Cada task é pequena, ordenada e tem **Verificação** (saída real). Marcar `[x]` só após verificar.
-**Log de prompts (Parte 5 / Q2):** ao fim de cada task que use a IA, atualizar `evidencias/prompts-log.md` (prompt, o que a IA gerou, o que foi corrigido; marcar o que é gerado por IA: Dockerfile, compose, módulos). Sem segredos/account-id.
+**Log de prompts (Parte 5 / Q2):** registrar TODOS os prompts do aluno, literais e sem exceção, a cada turno (seção D do log); ao fim de cada task que use a IA, atualizar `evidencias/prompts-log.md` (prompt, o que a IA gerou, o que foi corrigido; marcar o que é gerado por IA: Dockerfile, compose, módulos). Sem segredos/account-id.
 Convenção de commit: Conventional Commits com corpo (o quê + porquê) + `Co-Authored-By`. Nunca commitar na `main` durante a feature; merge com `--no-ff`.
 🛑 = guardrail de custo/regra. Nenhum push/PR ao repo da disciplina antes de 01/10.
 
 ## Dia 1 — 24/09: Repositório e Git (RF8, CA1)
-- [ ] T01 `git init` em `prova-primeiro-bimestre-devops`, branch `main`. **V:** `git status`.
-- [ ] T02 `.gitignore` (node_modules, .env, .terraform, *.tfstate, *.tfstate.backup, *.pem, *.tfvars, `!*.tfvars.example`, backend.hcl; NÃO ignorar `.terraform.lock.hcl`). **V:** `git check-ignore -v` nos padrões.
-- [ ] T03 `README.md` (nome, RA 6325149, descrição, como rodar, enum de `status`). **V:** leitura.
-- [ ] T04 Commit `docs: adiciona SPEC, PLAN e TASKS` + `chore: adiciona .gitignore` + `docs: adiciona README` em `main` (baseline). **V:** `git log --oneline`.
-- [ ] T05 Criar `feature/api-reservas`; iniciar `evidencias/prompts-log.md` (sem segredos) e rascunho de `relatorio.md`. **V:** `git branch`.
+- [x] T01 `git init` em `prova-primeiro-bimestre-devops`, branch `main`. **V:** `git status`.
+- [x] T02 `.gitignore` (node_modules, .env, .terraform, *.tfstate, *.tfstate.backup, *.pem, *.tfvars, `!*.tfvars.example`, backend.hcl; NÃO ignorar `.terraform.lock.hcl`). **V:** `git check-ignore -v` nos padrões.
+- [x] T03 `README.md` (nome, RA 6325149, descrição, como rodar, enum de `status`). **V:** leitura.
+- [x] T04 Commit `docs: adiciona SPEC, PLAN e TASKS` + `chore: adiciona .gitignore` + `docs: adiciona README` em `main` (baseline). **V:** `git log --oneline`.
+- [x] T05 Criar `feature/api-reservas`; iniciar `evidencias/prompts-log.md` (sem segredos) e rascunho de `relatorio.md`. **V:** `git branch`. **Nota: o `relatorio.md` só foi criado (rascunho com esqueleto) em 25/09, após a revisão do dia 5 apontar a falta.**
 
 ## Dia 2 — 25/09: API + Postgres local (RF1–RF7, CA4, CA5)
-- [ ] T06 `app/package.json` (express, pg; Node 22) + `npm install`. **V:** `npm ls`.
-- [ ] T07 `src/db.js`: Pool com env `DB_*`/`DB_SSL`, retry/backoff, `CREATE TABLE IF NOT EXISTS reservas (id SERIAL, cliente, data, status)`. **V:** conecta ao Postgres local (container temporário `docker run postgres:16-alpine`).
-- [ ] T08 `src/routes/reservas.js` + `src/index.js`: CRUD, `/health`, validação (400/404, `:id` inteiro). **V:** subir API e testar com curl.
-- [ ] T09 `app/smoke.sh`: POST→GET→GET/:id→PUT→DELETE, 404, 400, param inválido; sai com código ≠ 0 se falhar. **V:** `bash smoke.sh` verde.
-- [ ] T10 Commit `feat(api): implementa CRUD de reservas com PostgreSQL`. **V:** `git log`.
+- [x] T06 `app/package.json` (express, pg; Node 22) + `npm install`. **V:** `npm ls`.
+- [x] T07 `src/db.js`: Pool com env `DB_*`/`DB_SSL`, retry/backoff, `CREATE TABLE IF NOT EXISTS reservas (id SERIAL, cliente, data, status)`. **V:** conecta ao Postgres local (container temporário `docker run postgres:16-alpine`).
+- [x] T08 `src/routes/reservas.js` + `src/index.js`: CRUD, `/health`, validação (400/404, `:id` inteiro). **V:** subir API e testar com curl.
+- [x] T09 `app/smoke.sh`: POST→GET→GET/:id→PUT→DELETE, 404, 400, param inválido; sai com código ≠ 0 se falhar. **V:** `bash smoke.sh` verde.
+- [x] T10 Commit `feat(api): implementa CRUD de reservas com PostgreSQL`. **V:** `git log`.
 
 ## Dia 3 — 26/09: Docker (RF9, CA2, CA16)
-- [ ] T11 `app/Dockerfile` multi-stage (`node:22-alpine`, `USER node`) + `.dockerignore`. **V:** `docker build` ok.
-- [ ] T12 Executar container contra Postgres; `curl /health`; `docker exec … whoami` = node. **V:** salvar `evidencias/docker-build.txt` (build + run + whoami + curl).
-- [ ] T13 Commit `feat(docker): adiciona Dockerfile multi-stage e dockerignore`.
+- [x] T11 `app/Dockerfile` multi-stage (`node:22-alpine`, `USER node`) + `.dockerignore`. **V:** `docker build` ok.
+- [x] T12 Executar container contra Postgres; `curl /health`; `docker exec … whoami` = node. **V:** salvar `evidencias/docker-build.txt` (build + run + whoami + curl).
+- [x] T13 Commit `feat(docker): adiciona Dockerfile multi-stage e dockerignore`.
 
 ## Dia 4 — 27/09: Compose (RF10, RF20, CA3, CA4)
-- [ ] T14 `.env.example` (sem senhas reais) e `.env` local ignorado. **V:** `git ls-files | grep .env` só mostra `.env.example`.
-- [ ] T15 `docker-compose.yml`: `db` (postgres:16-alpine, volume nomeado `pgdata`, `pg_isready`), `api` (`depends_on: condition: service_healthy`), rede `reservas-net` com `driver: bridge` explícito. **V:** `docker compose config`; após subir, `docker network inspect` mostra driver bridge.
-- [ ] T16 `docker compose up -d --build`; `smoke.sh`; `docker compose restart`; confirmar persistência. **V:** salvar `evidencias/compose-ps.txt`.
-- [ ] T17 Commit `feat(compose): adiciona ambiente local API + PostgreSQL`.
+- [x] T14 `.env.example` (sem senhas reais) e `.env` local ignorado. **V:** `git ls-files | grep .env` só mostra `.env.example`.
+- [x] T15 `docker-compose.yml`: `db` (postgres:16-alpine, volume nomeado `pgdata`, `pg_isready`), `api` (`depends_on: condition: service_healthy`), rede `reservas-net` com `driver: bridge` explícito. **V:** `docker compose config`; após subir, `docker network inspect` mostra driver bridge.
+- [x] T16 `docker compose up -d --build`; `smoke.sh`; `docker compose restart`; confirmar persistência. **V:** salvar `evidencias/compose-ps.txt`.
+- [x] T17 Commit `feat(compose): adiciona ambiente local API + PostgreSQL`.
 
 ## Dia 5 — 28/09: Terraform e backend (RF11–RF19, CA6, CA8, CA13, CA14)
-- [ ] T18 🛑 Guardrail: `aws sts get-caller-identity` (abortar se root; confirmar LabRole/usuário do Lab) e região `us-east-1`. **V:** saída sem `:root`.
-- [ ] T19 `infra/backend/bootstrap.sh` e `teardown.sh` (bucket com versioning, SSE, block public access, tags; DynamoDB PROVISIONED 1/1 com `LockID`, tags; gera `backend.hcl`). Rodar `shellcheck`/`bash -n` antes. **V:** `bash -n`.
-- [ ] T20 Executar `bootstrap.sh`. **V:** `get-bucket-versioning`, `get-bucket-encryption`, `describe-table`. 🛑 Backend vivo = custo ~0, mas será removido no dia 6.
-- [ ] T21 `aws rds describe-orderable-db-instance-options` (postgres 16, db.t3.micro) e `describe-availability-zones`; fixar versão/AZs. **V:** saída anotada.
-- [ ] T22 Módulo `vpc` (2 AZs, subnets pub/priv, IGW, rota pública, sem NAT). **V:** `terraform validate`.
-- [ ] T23 Módulo `security-group` (regras opcionais `cidr_blocks` ou `referenced_security_group_id`). Instâncias: SG EC2 com 22 (`ssh_cidr`) e 3000; SG RDS com 5432 só por `referenced_security_group_id` = SG EC2. **V:** `validate`.
-- [ ] T24 Módulo `rds`: postgres 16, `db.t3.micro`, `publicly_accessible=false`, `storage_encrypted=true`, `db_subnet_group_name` com as subnets privadas, db_name/username, `skip_final_snapshot`. **V:** `validate`.
-- [ ] T25 Módulo `ec2`: `t2.micro`, subnet pública, AMI SSM AL2023, `iam_instance_profile = "LabInstanceProfile"`, `vockey`, `user_data` que sobe a API (clone em `repo_ref`, docker build/run, retry). **V:** `validate`; testar o script do `user_data` com `bash -n`.
-- [ ] T26 🛑 Exportar antes do plan `TF_VAR_db_password` (descartável) e `TF_VAR_ssh_cidr` (seu IP/32). Raiz: `providers.tf` (backend parcial, `default_tags`, versões), `variables.tf`, `main.tf` (composição), `outputs.tf` (`ec2_public_ip`, `rds_endpoint`, `api_url`), `terraform.tfvars.example`. Garantir que a senha não apareça nas evidências. **V:** `terraform init -backend-config=backend.hcl`, `validate`, `plan` → `evidencias/terraform-validate.txt` e `terraform-plan.txt`.
-- [ ] T27 Revisão humana do plan, conferindo cada ponto: sem IAM; sem NAT; VPC 2 AZs pub/priv; SG EC2 (22, 3000) e RDS (5432 só do SG EC2, sem `0.0.0.0/0`); EC2 t2.micro pública com `LabInstanceProfile`; RDS db.t3.micro privado, criptografado, subnet group privado; tags; `grep` de senha/account-id nas evidências. **V:** checklist assinado por você.
+- [x] T18 🛑 Guardrail: `aws sts get-caller-identity` (abortar se root; confirmar LabRole/usuário do Lab) e região `us-east-1`. **V:** saída sem `:root`.
+- [x] T19 `infra/backend/bootstrap.sh` e `teardown.sh` (bucket com versioning, SSE, block public access, tags; DynamoDB PROVISIONED 1/1 com `LockID`, tags; gera `backend.hcl`). Rodar `shellcheck`/`bash -n` antes. **V:** `bash -n`.
+- [x] T20 Executar `bootstrap.sh`. **V:** `get-bucket-versioning`, `get-bucket-encryption`, `describe-table`. 🛑 Backend vivo = custo ~0, mas será removido no dia 6. **(Executado em 25/09; saídas de versioning/encryption/describe-table foram conferidas na sessão e serão salvas em `evidencias/` no dia 6 (T33); backend removido) pelo `teardown.sh` no mesmo dia (regra de custos) e será recriado no dia 6.**
+- [x] T21 `aws rds describe-orderable-db-instance-options` (postgres 16, db.t3.micro) e `describe-availability-zones`; fixar versão/AZs. **V:** saída anotada.
+- [x] T22 Módulo `vpc` (2 AZs, subnets pub/priv, IGW, rota pública, sem NAT). **V:** `terraform validate`.
+- [x] T23 Módulo `security-group` (regras opcionais `cidr_blocks` ou `referenced_security_group_id`). Instâncias: SG EC2 com 22 (`ssh_cidr`) e 3000; SG RDS com 5432 só por `referenced_security_group_id` = SG EC2. **V:** `validate`.
+- [x] T24 Módulo `rds`: postgres 16, `db.t3.micro`, `publicly_accessible=false`, `storage_encrypted=true`, `db_subnet_group_name` com as subnets privadas, db_name/username, `skip_final_snapshot`. **V:** `validate`.
+- [x] T25 Módulo `ec2`: `t2.micro`, subnet pública, AMI SSM AL2023, `iam_instance_profile = "LabInstanceProfile"`, `vockey`, `user_data` que sobe a API (clone em `repo_ref`, docker build/run, retry). **V:** `validate`; testar o script do `user_data` com `bash -n`.
+- [x] T26 🛑 Exportar antes do plan `TF_VAR_db_password` (descartável) e `TF_VAR_ssh_cidr` (seu IP/32). Raiz: `providers.tf` (backend parcial, `default_tags`, versões), `variables.tf`, `main.tf` (composição), `outputs.tf` (`ec2_public_ip`, `rds_endpoint`, `api_url`), `terraform.tfvars.example`. Garantir que a senha não apareça nas evidências. **V:** `terraform init -backend-config=backend.hcl`, `validate`, `plan` → `evidencias/terraform-validate.txt` e `terraform-plan.txt`.
+- [x] T27 Revisão humana do plan, conferindo cada ponto: sem IAM; sem NAT; VPC 2 AZs pub/priv; SG EC2 (22, 3000) e RDS (5432 só do SG EC2, sem `0.0.0.0/0`); EC2 t2.micro pública com `LabInstanceProfile`; RDS db.t3.micro privado, criptografado, subnet group privado; tags; `grep` de senha/account-id nas evidências. **V:** checklist assinado por você. **Aprovado pelo aluno em 25/09/2026 após revisão do plan.**
 - [ ] T28 Commits (`feat(infra): …` por módulo), merge `feature/api-reservas` → `main` com `--no-ff`, salvar `git log --graph` em `evidencias/`, tag intermediária `v0.9-apply` (é o `repo_ref` do `user_data`). **V:** ≥6 commits convencionais.
 - [ ] T29 ⚠️ **Confirmação sua:** criar repo público `prova-primeiro-bimestre-devops` no GitHub e `git push --tags`. (Não é o repo da disciplina.) **V:** `git ls-files` sem proibidos; URL abre.
 

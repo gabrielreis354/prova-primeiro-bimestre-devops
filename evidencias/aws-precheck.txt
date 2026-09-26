@@ -1,0 +1,9 @@
+# Pré-checagem AWS (Learner Lab, us-east-1) — decisões fixadas no Terraform
+$ aws sts get-caller-identity   -> assumed-role/voclabs (role do Lab; NÃO é root)
+$ aws rds describe-db-engine-versions --engine postgres   -> 16.x disponíveis: 16.9 ... 16.15
+$ aws rds describe-orderable-db-instance-options --engine postgres --db-instance-class db.t3.micro --engine-version 16.13
+  -> 16.13 | gp2 | MultiAZCapable=True | AZs: us-east-1a,1b,1c,1d,1f   => engine_version = "16.13", AZs us-east-1a/1b
+$ aws ec2 describe-instance-type-offerings (t2.micro)   -> disponível em us-east-1a..1f
+$ aws ssm get-parameter /aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64  -> AMI AL2023 resolvida
+$ aws ec2 describe-key-pairs   -> vockey (existente)
+$ aws iam get-instance-profile --instance-profile-name LabInstanceProfile   -> existente

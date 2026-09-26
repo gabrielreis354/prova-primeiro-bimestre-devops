@@ -1,0 +1,51 @@
+# Evidência: build e execução do container (API de Reservas) — 2026-09-25
+
+## docker build
+#1 [internal] load build definition from Dockerfile
+#1 DONE 0.1s
+#2 [internal] load metadata for docker.io/library/node:22-alpine
+#2 DONE 0.5s
+#3 [internal] load .dockerignore
+#3 DONE 0.1s
+#4 [internal] load build context
+#4 DONE 0.1s
+#5 [deps 1/4] FROM docker.io/library/node:22-alpine@sha256:0a7108bf6c7bf5de370ffb1a3ed6be93d405b43ff159f681a8d18c0e2bc2e402
+#5 DONE 0.0s
+#6 [deps 2/4] WORKDIR /app
+#7 [deps 3/4] COPY package.json package-lock.json ./
+#7 DONE 0.1s
+#8 [deps 4/4] RUN npm ci --omit=dev && npm cache clean --force
+#8 DONE 2.8s
+#9 [runtime 3/5] COPY --from=deps /app/node_modules ./node_modules
+#9 DONE 0.2s
+#10 [runtime 4/5] COPY package.json ./
+#10 DONE 0.1s
+#11 [runtime 5/5] COPY src ./src
+#11 DONE 0.1s
+#12 naming to docker.io/library/api-reservas:local
+#12 naming to docker.io/library/api-reservas:local done
+#12 DONE 0.7s
+
+## docker images
+api-reservas:local  244MB
+
+## docker run (API + Postgres temporário na rede t12-net)
+NAMES     IMAGE                STATUS                   PORTS
+t12-api   75cb1d7b421d         Up 7 seconds (healthy)   0.0.0.0:3100->3000/tcp, [::]:3100->3000/tcp
+t12-db    postgres:16-alpine   Up 10 seconds            5432/tcp
+
+## logs da API
+Banco de dados pronto.
+API de Reservas rodando na porta 3000
+
+## curl /health
+{"status":"ok"}
+
+## usuário do processo (não-root)
+node
+uid=1000(node) gid=1000(node) groups=1000(node)
+
+## smoke.sh contra o container
+OK    POST JSON malformado (HTTP 400)
+
+SMOKE OK: todos os testes passaram.

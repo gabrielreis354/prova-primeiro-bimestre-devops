@@ -1,0 +1,22 @@
+# Smoke test local (API + PostgreSQL 16) — 2026-09-25
+OK    GET /health (HTTP 200)
+OK    POST /reservas (status padrão) (HTTP 201)
+OK    GET /reservas lista (HTTP 200)
+OK    GET /reservas/:id (HTTP 200)
+OK    PUT /reservas/:id (HTTP 200)
+OK    GET após PUT reflete a alteração (HTTP 200)
+OK    DELETE /reservas/:id (HTTP 200)
+OK    GET após DELETE (HTTP 404)
+OK    GET id inexistente (HTTP 404)
+OK    PUT id inexistente (HTTP 404)
+OK    DELETE id inexistente (HTTP 404)
+OK    POST sem cliente (HTTP 400)
+OK    POST sem data (HTTP 400)
+OK    POST data inválida (HTTP 400)
+OK    POST status inválido (HTTP 400)
+OK    PUT sem status (HTTP 400)
+OK    GET id não numérico (HTTP 400)
+OK    GET id acima do limite (HTTP 400)
+OK    POST JSON malformado (HTTP 400)
+
+SMOKE OK: todos os testes passaram.
