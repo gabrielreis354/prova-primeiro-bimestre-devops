@@ -25,3 +25,4 @@ Thumbs.db
 *.tfstate.*
 .env.*
 !.env.example
+tfplan

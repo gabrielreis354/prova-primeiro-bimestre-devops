@@ -219,3 +219,9 @@ Responda em português, lista priorizada (CRÍTICO / IMPORTANTE / MENOR) com arq
 
 → IA: encerrou o script pai e enviou SIGINT ao Terraform (parada graciosa). O `apply` foi interrompido logo após imprimir o plano ("Error: execution halted"), antes de criar recursos. Verificação read-only: sem state, sem lock, sem EC2/RDS/VPC/EIP/NAT; só existiam o bucket e a tabela do backend. Rodou `teardown.sh` e confirmou por CLI que nada restou na AWS (S3, DynamoDB, EC2, RDS e recursos com a tag do projeto vazios).
 → Correção de processo (vale para o `apply` do dia 6 e para a Q4 do relatório): nunca `-auto-approve` sobre plano não revisado. Fluxo correto: `terraform plan -out=tfplan` → mostrar/revisar o plano com o aluno → `terraform apply tfplan` (aplica exatamente o que foi revisado); acompanhar o log em primeiro plano ou com o Monitor, sem disparar e perder de vista.
+
+**P23** (26/09/2026)
+> pode começar pelo plan salvo e vamos garantir que estamos seguindo o passo a passso da prova
+
+→ IA: seguiu a ordem do enunciado: guardrail (`voclabs`, não root) → backend S3+DynamoDB criado antes do `backend "s3"` (Dica do enunciado) → `terraform init -reconfigure -backend-config=backend.hcl` → `validate` → `plan -out=tfplan` (19 a criar). Revisou o plano salvo (sem IAM/NAT/EIP; 5432 só por SG; RDS privado/criptografado; EC2 com `LabInstanceProfile`; `user_data` sensível) e **não aplicou**, aguardando a aprovação do aluno.
+→ Correção da IA: o padrão `*.tfplan` do `.gitignore` não cobre o arquivo `tfplan` (sem extensão), que guarda a senha do RDS em binário → adicionado `tfplan` ao `.gitignore` antes de qualquer `git add`.
