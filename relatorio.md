@@ -3,6 +3,8 @@
 **Aluno:** Gabriel Reis Cunha · **RA:** 6325149
 **Ferramenta de IA utilizada:** Claude Code (Anthropic), com fluxo Spec-Driven Development (spec → plan → tasks → implementação).
 
+Parte das tabelas, o diagrama e alguns blocos de apoio foram redigidos com auxílio do Claude Code e revisados por mim; o restante do texto é meu.
+
 ## Questão 1 — A Jornada Completa (Aulas 01 a 07)
 
 Lendo o material de aula, o TF, o TA de cada aula dá para ver que os problemas da Technova foram crescentes de maneira que a solução a ser implementada pelo aluno com o auxílio da IA sempre se complementa.
@@ -79,7 +81,7 @@ Como dá para ver no prompt logs que eu vou pedir para ela colocar abaixo. A qua
 
 ### Prompts que sustentam o relato (trechos literais de `evidencias/prompts-log.md`)
 
-*Bloco inserido pela IA a pedido do aluno; os prompts estão exatamente como foram enviados, com os erros de digitação originais.*
+Os prompts abaixo estão exatamente como foram enviados, com os erros de digitação originais.
 
 Números do log até o P34 (auditoria final): o aluno enviou 33 prompts ao modelo. Na fase de levantamento, Spec, Plan e Tasks (P02 a P10) foram 9 prompts, acompanhados de 3 prompts longos que a IA enviou a subagentes revisores (B1 a B3, com 207, 211 e 162 palavras). Na implementação dos dias 2 a 4 (P12 a P16) os prompts do aluno tiveram em média 4 palavras, porque a IA só seguia as tasks já aprovadas.
 
@@ -98,7 +100,7 @@ Leitura das fases: a decisão do que construir, com quais restrições e como va
 
 ## Questão 3 — Infraestrutura, Segurança e o Learner Lab
 
-O claude incluiu um desenho feito no mermaid sobre a arquitetura do projeto:
+O diagrama da arquitetura provisionada está no fim desta questão. Respondendo objetivamente às perguntas:
 
 - Por que o RDS fica na subnet privada e a EC2 na pública? O RDS é um serviço de banco de dados gerenciado pela AWS, ou seja, todos os dados sensíveis de clientes estão lá e sendo assim eu não posso deixar uma porta aberta pública para qualquer um acessar. Dessa maneira limitar em uma subnet privada é uma maneira que eu tenho para proteger o acesso de quem pode entrar e restringir para que ele não seja facilmente detectável por pessoas com intenções maliciosas
 
@@ -108,8 +110,7 @@ O claude incluiu um desenho feito no mermaid sobre a arquitetura do projeto:
 
 - Que ajustes o AWS Academy Learner Lab exigiu em relação ao que foi ensinado (credenciais temporárias, região, restrições de IAM)? A própria AWS Academy Learner Lab limita a criação de roles, deixando somente a role da própria conta que seja utilizada, outros serviços também são limitados
 
-### Complementos da Questão 3
-
+### Detalhes e evidências da Questão 3
 
 - **Como o LabRole e o LabInstanceProfile foram usados na prática:** a EC2 recebe `iam_instance_profile = "LabInstanceProfile"` apenas por nome, e o provider usa as credenciais da role do Lab (`voclabs`). Nenhum recurso IAM foi criado: `terraform state list` não tem nenhum `aws_iam`.
 - **Credenciais temporárias:** o Lab entrega Access Key, Secret e Session Token (carregados por `aws-creds.sh`) que expiram. No início do dia 5 a sessão já estava expirada (`InvalidClientTokenId`) e precisou ser renovada.
@@ -120,7 +121,7 @@ O claude incluiu um desenho feito no mermaid sobre a arquitetura do projeto:
 
 ### Diagrama da arquitetura provisionada
 
-*Bloco inserido pela IA a pedido do aluno, a partir do `terraform plan`/`apply` real (19 recursos). Versão em imagem, renderizada com o mermaid-cli: `evidencias/arquitetura.png`.*
+Desenho feito a partir do `terraform plan`/`apply` real (19 recursos). Versão em imagem, renderizada com o mermaid-cli: `evidencias/arquitetura.png`.
 
 ```mermaid
 flowchart LR
@@ -171,4 +172,6 @@ Antes de aplicar o terraform apply devemos conferir se aquilo que foi planejado 
 
 No geral são erros pequenos, detalhes minuciosos que pedem a revisão do código escrito pela IA para serem pegos e resolvidos. Mesmo com detalhe e planejamento alguns erros menores podem acontecer e que precisam da revisão humana para perceber.
 
-- Como a evolução Git → Docker → Terraform → Modules preparou você para usar IA com responsabilidade? Essa evolução do conhecimento sobre cada tecnologia te auxilia a não ser alguém que apenas concorda com a IA, mas alguém que de fato autentica que o que ela está escrevendo é verdadeiro, faz sentido de acordo com o contexto e que pode corrigir de acordo com cada caso
+No dia 6, um `terraform apply -auto-approve` foi disparado sobre um plano novo, que não era o plano que eu tinha revisado. O sistema bloqueou o acompanhamento, optei por interromper e limpar, e o apply foi interrompido antes de criar recursos. Depois disso passei a usar `plan -out` seguido de `apply` do plano salvo. Sem essa parada, 19 recursos, incluindo um RDS, teriam sido criados sem revisão do plano aplicado.
+
+- Como a evolução Git → Docker → Terraform → Modules preparou você para usar IA com responsabilidade? Essa evolução do conhecimento sobre cada tecnologia te auxilia a não ser alguém que apenas concorda com a IA, mas alguém que de fato autentica que o que ela está escrevendo é verdadeiro, faz sentido de acordo com o contexto e que pode corrigir de acordo com cada caso. Na prática, cada camada deixou uma verificação concreta: o Git (`git check-ignore`) mostrou que o `tfplan` com senha não estava no `.gitignore`; o Docker, com `whoami` e `/health`, provou o container; o Compose, com o `smoke.sh`, provou a aplicação e o banco; e o `plan` do Terraform virou o ponto de revisão antes de gastar.

@@ -331,3 +331,8 @@ Formato: português, conciso. 1) Tabela CA1–CA17 (veredito | evidência). 2) L
 > Qual sua sugestão para a correção dos 3 pontos acima
 
 → IA: respondeu com sugestões (marca de IA única no cabeçalho; frase de abertura da Q3 e posição do diagrama; reforço da Q4 com o caso real do `apply -auto-approve` e a ligação de cada camada com uma verificação), sem editar o `relatorio.md`, que é do aluno.
+
+**P36** (26/09/2026)
+> Eu li e suas suiugestões de correção são validas e estão corretas pode prosseguir com elas e depois fazer o commit
+
+→ IA: aplicou no `relatorio.md` as 3 sugestões aprovadas, mexendo só nos pontos indicados: (1) declaração única de apoio da IA no cabeçalho e remoção das duas legendas "Bloco inserido pela IA"; (2) frase de abertura da Q3 trocada por "O diagrama ... está no fim desta questão", seção retitulada "Detalhes e evidências" e linhas em branco extras removidas; (3) Q4 com o caso real do `apply -auto-approve` e a ligação de cada camada com uma verificação concreta (as frases em 1ª pessoa foram aprovadas pelo aluno, e "optei por interromper e limpar" corresponde ao P22). Conferido: fences balanceadas, diagrama renderiza, Q4 de 296 para 421 palavras. A IA ajustou um detalhe na redação sugerida: o `git check-ignore` (não "o Git") é quem mostrou o `tfplan` fora do `.gitignore`. Commit feito; tag `v1.0` e push seguem pendentes.
