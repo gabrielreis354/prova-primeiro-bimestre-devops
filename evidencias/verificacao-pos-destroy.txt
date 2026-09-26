@@ -1,0 +1,18 @@
+# Verificação pós-destroy e teardown — 2026-09-26 (esperado: tudo vazio)
+## EC2 (qualquer estado exceto terminated)
+## RDS
+## VPCs com tag do projeto
+## Volumes EBS
+## Elastic IPs
+## Interfaces de rede da prova
+## NAT Gateways ativos
+## Buckets technova
+## Tabelas DynamoDB
+## Recursos com tag Project=prova-primeiro-bimestre (API de tags)
+A API de tags (resourcegroupstaggingapi) é eventualmente consistente e ainda listou 8 ARNs logo após o destroy.
+Conferência direta por ID, que é a fonte confiável:
+- instância i-...: State = terminated
+- volume EBS: InvalidVolume.NotFound
+- regras de SG: InvalidSecurityGroupRuleId.NotFound
+- subnet: InvalidSubnetID.NotFound
+Sem filtro de tag, na conta: 0 instâncias ativas, 0 VPCs não padrão, 0 instâncias RDS; bucket e tabela do backend removidos.

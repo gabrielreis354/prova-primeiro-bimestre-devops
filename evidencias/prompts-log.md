@@ -225,3 +225,10 @@ Responda em português, lista priorizada (CRÍTICO / IMPORTANTE / MENOR) com arq
 
 → IA: seguiu a ordem do enunciado: guardrail (`voclabs`, não root) → backend S3+DynamoDB criado antes do `backend "s3"` (Dica do enunciado) → `terraform init -reconfigure -backend-config=backend.hcl` → `validate` → `plan -out=tfplan` (19 a criar). Revisou o plano salvo (sem IAM/NAT/EIP; 5432 só por SG; RDS privado/criptografado; EC2 com `LabInstanceProfile`; `user_data` sensível) e **não aplicou**, aguardando a aprovação do aluno.
 → Correção da IA: o padrão `*.tfplan` do `.gitignore` não cobre o arquivo `tfplan` (sem extensão), que guarda a senha do RDS em binário → adicionado `tfplan` ao `.gitignore` antes de qualquer `git add`.
+
+**P24** (26/09/2026)
+> pode aplicar o plano salvo
+
+→ IA: `terraform apply tfplan` (exatamente o plano revisado) em segundo plano, com log; **19 criados**, RDS em 5m19s. A API na EC2 respondeu `/health` em ~51 s. `smoke.sh` contra `api_url` passou em todos os casos e uma reserva foi gravada e lida do RDS (`evidencias/curl-crud-rds.txt`). Evidências de segurança/state em `evidencias/seguranca-state.txt` (RDS privado e criptografado, subnets privadas, SGs, 5432 inacessível de fora, state list sem IAM, state no S3 versionado/SSE/block public access, tabela DynamoDB). Em seguida `terraform plan -destroy -out` (19 a destruir) e `apply` do plano de destruição, depois `teardown.sh`.
+→ Erros/correções da IA neste passo: (1) o `| head -90` cortou a evidência de segurança no meio (SIGPIPE) → seções finais regeradas e anexadas; (2) o IP real do aluno apareceu nas regras de SG porque o mascaramento cobria só um IP fictício → mascarado antes do commit; (3) o arquivo de verificação pós-destroy gravou o account-id sem máscara → mascarado; (4) o item de lock em si não foi capturado (só o digest `-md5` do state) → declarado na evidência, sem fingir; (5) a API de tags ainda listou 8 ARNs pós-destroy → conferido por ID (instância `terminated`, demais `NotFound`; 0 instâncias, 0 VPCs não padrão, 0 RDS).
+→ Custo: recursos ativos entre o `apply` e o `destroy` (~25 min); tudo destruído e backend removido no mesmo dia, conforme a regra absoluta.

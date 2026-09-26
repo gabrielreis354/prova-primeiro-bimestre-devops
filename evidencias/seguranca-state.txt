@@ -1,0 +1,115 @@
+# Evidências de segurança, state e lock — 2026-09-26
+
+## RDS (banco da API na nuvem)
+--------------------------------------------------------
+|                  DescribeDBInstances                 |
++---------------------+--------------------------------+
+|  Class              |  db.t3.micro                   |
+|  Engine             |  postgres                      |
+|  Id                 |  technova-reservas-db          |
+|  MultiAZ            |  False                         |
+|  PubliclyAccessible |  False                         |
+|  Status             |  available                     |
+|  Storage            |  20                            |
+|  StorageEncrypted   |  True                          |
+|  SubnetGroup        |  technova-reservas-db-subnets  |
+|  Version            |  16.13                         |
++---------------------+--------------------------------+
+Subnets do subnet group (privadas):
+subnet-00c56bf5249f619f3	us-east-1a	False	private
+subnet-0812f236656f4211c	us-east-1b	False	private
+
+## EC2
+i-00e427484dd4f3867	t2.micro	arn:aws:iam::<account-id>:instance-profile/LabInstanceProfile	184.73.36.174	vockey
+
+## Security Groups (regras de entrada)
+[
+    {
+        "Nome": "technova-reservas-rds-sg",
+        "Entrada": [
+            {
+                "Porta": 5432,
+                "CIDR": [],
+                "DeSG": [
+                    "sg-0a9fbd694ca257fd7"
+                ]
+            }
+        ]
+    },
+    {
+        "Nome": "technova-reservas-ec2-sg",
+        "Entrada": [
+            {
+                "Porta": 22,
+                "CIDR": [
+                    "<SEU-IP>/32"
+                ],
+                "DeSG": []
+            },
+            {
+                "Porta": 3000,
+                "CIDR": [
+                    "0.0.0.0/0"
+                ],
+                "DeSG": []
+            }
+        ]
+    }
+]
+
+## RDS não é acessível de fora (tentativa TCP 5432 a partir da máquina do aluno)
+conexão recusada/timeout, como esperado
+
+## terraform state list (nenhum recurso IAM)
+module.ec2.data.aws_ssm_parameter.al2023
+module.ec2.aws_instance.this
+module.rds.aws_db_instance.this
+module.rds.aws_db_subnet_group.this
+module.sg_ec2.aws_security_group.this
+module.sg_ec2.aws_vpc_security_group_egress_rule.all
+module.sg_ec2.aws_vpc_security_group_ingress_rule.this["api"]
+module.sg_ec2.aws_vpc_security_group_ingress_rule.this["ssh"]
+module.sg_rds.aws_security_group.this
+module.sg_rds.aws_vpc_security_group_egress_rule.all
+module.sg_rds.aws_vpc_security_group_ingress_rule.this["postgres"]
+module.vpc.aws_internet_gateway.this
+module.vpc.aws_route_table.public
+module.vpc.aws_route_table_association.public[0]
+module.vpc.aws_route_table_association.public[1]
+module.vpc.aws_subnet.private[0]
+module.vpc.aws_subnet.private[1]
+module.vpc.aws_subnet.public[0]
+module.vpc.aws_subnet.public[1]
+module.vpc.aws_vpc.this
+0
+
+## State remoto no S3
+2026-09-26 10:37:54      43106 prova/terraform.tfstate
+
+## Bucket do state: versionamento, criptografia, block public access
+{
+    "Status": "Enabled"
+}
+{
+    "SSEAlgorithm": "AES256"
+}
+{
+    "BlockPublicAcls": true,
+    "IgnorePublicAcls": true,
+    "BlockPublicPolicy": true,
+    "RestrictPublicBuckets": true
+}
+
+## DynamoDB de lock
+-------------------------------------------------------
+|                    DescribeTable                    |
++--------+-------------------+------+---------+-------+
+|  Chave |       Nome        | RCU  | Status  |  WCU  |
++--------+-------------------+------+---------+-------+
+|  LockID|  technova-tflock  |  1   |  ACTIVE |  1    |
++--------+-------------------+------+---------+-------+
+Itens da tabela durante um 'terraform plan -refresh-only' (lock/digest do state):
+technova-tfstate-6325149-<account-id>/prova/terraform.tfstate-md5
+
+Nota: o item de lock em si (LockID = "<bucket>/prova/terraform.tfstate") existe apenas durante a operação e não foi capturado
+nesta execução; o item "...-md5" acima é o digest do state que o backend S3 grava na mesma tabela, o que comprova o uso do DynamoDB.

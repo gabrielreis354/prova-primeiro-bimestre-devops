@@ -45,13 +45,13 @@ Convenção de commit: Conventional Commits com corpo (o quê + porquê) + `Co-A
 - [x] T29 ⚠️ **Confirmação sua:** criar repo público `prova-primeiro-bimestre-devops` no GitHub e `git push --tags`. (Não é o repo da disciplina.) **V:** `git ls-files` sem proibidos; URL abre.
 
 ## Dia 6 — 29/09: Apply, evidências e destroy (RF19, CA7, CA9, CA16) — 🛑 destruir logo após
-- [ ] T30 🛑 Guardrail T18 novamente; senha descartável via `TF_VAR_db_password`; `TF_VAR_ssh_cidr` = seu IP/32. **V:** identidade e variáveis ok. **Tentativa de 26/09 interrompida antes de criar recursos (apply sem plano revisado); backend removido. Refazer com `plan -out` revisado + `apply tfplan`.**
-- [ ] T31 `terraform apply`. **V:** outputs; `evidencias/terraform-apply.txt` (revisar segredos).
-- [ ] T32 Aguardar boot; `curl api_url/health`; `smoke.sh` contra `api_url`. **V:** `evidencias/curl-crud-rds.txt`. Se falhar: `get-console-output`/SSH com `vockey`.
-- [ ] T33 Evidências de segurança/state: `describe-db-instances` (`PubliclyAccessible=false`, `StorageEncrypted=true`), `describe-security-groups`, `terraform state list`, `s3 ls` do state, `describe-table`, prova de não haver IAM criado. **V:** arquivos em `evidencias/`.
-- [ ] T34 🛑 **Imediatamente:** `terraform destroy` → `evidencias/terraform-destroy.txt`.
-- [ ] T35 🛑 `teardown.sh` (bucket + tabela). **V:** `aws ec2/rds/s3api/dynamodb list/describe` vazios, sem EIP/ENI/volumes órfãos; avisar você se sobrar algo.
-- [ ] T36 Commit `docs: adiciona evidências de infraestrutura`.
+- [x] T30 🛑 Guardrail T18 novamente; senha descartável via `TF_VAR_db_password`; `TF_VAR_ssh_cidr` = seu IP/32. **V:** identidade e variáveis ok. **Tentativa de 26/09 interrompida antes de criar recursos (apply sem plano revisado); backend removido. Refazer com `plan -out` revisado + `apply tfplan`.**
+- [x] T31 `terraform apply`. **V:** outputs; `evidencias/terraform-apply.txt` (revisar segredos).
+- [x] T32 Aguardar boot; `curl api_url/health`; `smoke.sh` contra `api_url`. **V:** `evidencias/curl-crud-rds.txt`. Se falhar: `get-console-output`/SSH com `vockey`.
+- [x] T33 Evidências de segurança/state: `describe-db-instances` (`PubliclyAccessible=false`, `StorageEncrypted=true`), `describe-security-groups`, `terraform state list`, `s3 ls` do state, `describe-table`, prova de não haver IAM criado. **V:** arquivos em `evidencias/`.
+- [x] T34 🛑 **Imediatamente:** `terraform destroy` → `evidencias/terraform-destroy.txt`.
+- [x] T35 🛑 `teardown.sh` (bucket + tabela). **V:** `aws ec2/rds/s3api/dynamodb list/describe` vazios, sem EIP/ENI/volumes órfãos; avisar você se sobrar algo.
+- [x] T36 Commit `docs: adiciona evidências de infraestrutura`.
 
 ## Dia 7 — 30/09: Relatório, entrega e congelamento (CA10–CA12, CA15, CA17)
 - [ ] T37 `relatorio.md`: Claude Code informado no início; Q1–Q4, ≥10 linhas de texto cada (sem contar título/código), experiência real (erros e correções do `prompts-log.md`). Q1: mapa aulas 01–07 → solução e ordem seguida com motivo. Q2: prompts principais, acertos, correções, manual vs IA; sem Kiro, descrever o fluxo SDD spec→plan→tasks. Q3: arquitetura (diagrama opcional), RDS privado × EC2 pública, LabRole/LabInstanceProfile, ajustes do Lab (credenciais temporárias, região, SCP do Object Lock). Q4: checklist pré-apply, validação, risco de aceitar sem revisar, evolução Git→Docker→TF→Módulos. **V:** contagem de linhas por questão.
