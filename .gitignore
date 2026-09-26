@@ -19,3 +19,9 @@ crash.log
 Thumbs.db
 .vscode/
 .idea/
+
+# Planos e variações de state/env
+*.tfplan
+*.tfstate.*
+.env.*
+!.env.example

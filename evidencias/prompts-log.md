@@ -119,6 +119,21 @@ Português, conciso. Não repita o que está correto além da tabela.
 **B0 — argumentos passados à skill `/spec` (P04)**
 > Prova do 1º bimestre DevOps: API de Reservas (Node/Express + PostgreSQL), Docker, Compose, Terraform modular (vpc, security-group, ec2, rds) com remote state S3+DynamoDB no AWS Academy Learner Lab. Enunciado em provas/prova-primeiro-bimestre.md. Prova em 01/10/2026; IA: Claude Code.
 
+**B4 — revisor do README e do estado do repo (dia 5)**
+```
+Você é um revisor crítico independente. Tarefa SOMENTE DE LEITURA: NÃO edite nem crie arquivos, NÃO rode comandos AWS/Terraform/Docker nem qualquer comando com efeito colateral (git só leitura: log, status, ls-files, diff, show). Não imprima segredos.
+
+Contexto: prova de DevOps (API de Reservas) do aluno Gabriel Reis Cunha. Repositório: /mnt/c/Users/gabri/unifaat_4sem/prova-primeiro-bimestre-devops (branch feature/api-reservas). Fonte da verdade: o enunciado em /mnt/c/Users/gabri/unifaat_4sem/devops_20262/provas/prova-primeiro-bimestre.md (leia INTEIRO). Documentos de apoio em specs/001-prova-primeiro-bimestre/{spec.md,plan.md,tasks.md}.
+
+Faça:
+1. Leia o README.md COMPLETO e confira cada afirmação contra o que existe no repo (rotas, campos, enum de status, estrutura, "Como rodar localmente", seção "Infraestrutura AWS"). Aponte o desatualizado, incorreto, faltando ou que promete algo que não existe. Confira a exigência do enunciado (nome, RA, descrição) e se as instruções funcionariam para quem clona o repo.
+2. Revise o estado do repo contra o enunciado (app/, docker-compose.yml, .env.example, .gitignore, infra/ com módulos, providers.tf, backend/, evidencias/), incluindo RDS privado/criptografado, SGs, EC2 t2.micro com LabInstanceProfile, sem IAM, tags, outputs, composição, remote state.
+3. Procure vazamentos (arquivos proibidos no git ls-files; senhas, account-id de 12 dígitos, tokens em arquivos versionados e evidências).
+4. Verifique consistência entre commits (Conventional Commits, mínimo 6, feature branch) e entre spec/plan/tasks e a implementação (tasks [x] sem evidência real).
+
+Responda em português, lista priorizada (CRÍTICO / IMPORTANTE / MENOR) com arquivo/linha, problema, exigência do enunciado e correção; depois "Confirmado OK" só com o verificado. Não invente; seja conciso.
+```
+
 ---
 
 ## C. Registro de decisões e correções (humano × IA)
@@ -174,3 +189,17 @@ Português, conciso. Não repita o que está correto além da tabela.
 
 → Dia 5, o que a IA gerou: `bootstrap.sh`/`teardown.sh`, módulos `vpc`, `security-group`, `rds`, `ec2` e raiz (providers, variables, main, outputs). Executado: bootstrap (bucket e tabela verificados), consultas de RDS/AZ/AMI (fixou `postgres 16.13` e AZs 1a/1b), `init`, `validate`, `plan` (19 recursos, sem IAM/NAT), e `teardown.sh` do backend com verificação de que nada restou.
 → Observações/correções: (1) `dynamodb_table` aparece como *deprecated* no Terraform 1.15; mantido porque o enunciado exige DynamoDB; (2) `describe-orderable-db-instance-options` rejeitou `--engine-version 16` (exige versão completa) → refeito com 16.9/16.13/16.15; (3) validação da senha do RDS limita o alfabeto por causa das aspas simples no `user_data`; (4) `plan` com senha e IP só em variáveis de ambiente; evidências mascaram IP e account-id e a senha não aparece; (5) backend derrubado no mesmo dia por causa da regra de custos, e por isso o `init` precisará de `-reconfigure` no dia 6.
+
+**P19** (25/09/2026)
+> Dispare um subagent para fazer a revisao, lendo o README completo e garantindo que esta tudo certo
+
+→ IA: disparou um revisor independente e somente leitura (ver B4). Resultado registrado abaixo, depois da resposta do revisor.
+
+→ Resultado (revisor B4, conferido pela IA): nenhum vazamento (sem `.env`, tfstate, senha, token ou account-id versionados) e app, Compose e Terraform conferem com o enunciado. Apontou pendências, que a IA verificou antes de agir:
+- **Erro da IA:** `relatorio.md` não existia, embora a T05 estivesse marcada `[x]` como "rascunho de relatorio.md" → criado o esqueleto com IA declarada e pontos já anotados para a Q3; T05 anotada.
+- **Erro da IA:** `docker-build.txt` e `smoke-local.txt` estavam datados 2026-09-26, mas foram gerados em 25/09 → datas corrigidas.
+- README desatualizado (seção de infraestrutura era placeholder, estrutura incompleta, prometia evidências de apply/destroy) → reescrito.
+- `.gitignore` ampliado (`*.tfplan`, `*.tfstate.*`, `.env.*` com exceção do `.env.example`).
+- T20 sem saídas versionadas das verificações do bucket/tabela → anotado; serão salvas no dia 6 (T33).
+- Pendentes por plano (não são erros): merge `--no-ff`, tag `v0.9-apply` e push do repo público (T28/T29, antes do apply) e a assinatura da T27.
+- Limitações a citar no relatório: senha do RDS no `user_data`/`docker run`, `rejectUnauthorized: false` no SSL, `dynamodb_table` deprecated.

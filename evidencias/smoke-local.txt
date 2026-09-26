@@ -1,4 +1,4 @@
-# Smoke test local (API + PostgreSQL 16) — 2026-09-26
+# Smoke test local (API + PostgreSQL 16) — 2026-09-25
 OK    GET /health (HTTP 200)
 OK    POST /reservas (status padrão) (HTTP 201)
 OK    GET /reservas lista (HTTP 200)
