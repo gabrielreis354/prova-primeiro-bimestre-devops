@@ -1,0 +1,6 @@
+# Copie para terraform.tfvars (ignorado pelo Git) ou use variáveis de ambiente:
+#   export TF_VAR_ssh_cidr="$(curl -s ifconfig.me)/32"
+#   export TF_VAR_db_password="<senha descartável, 8+ caracteres [A-Za-z0-9_.-]>"
+# A senha do banco NUNCA vai neste arquivo.
+ssh_cidr = "203.0.113.10/32"
+repo_ref = "v0.9-apply"
