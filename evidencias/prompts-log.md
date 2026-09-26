@@ -274,3 +274,8 @@ Formato: português, conciso. 1) Tabela CA1–CA17 (veredito | evidência). 2) L
 
 → IA: **Regra de autoria a partir daqui:** a IA pode escrever `.md` de apoio/técnicos (README, spec, tasks, entrega.md com dados e evidências), mas o texto dissertativo das 4 questões do `relatorio.md` é escrito pelo aluno, na voz dele; a IA só ajuda com fatos e ponteiros (`specs/001-prova-primeiro-bimestre/relatorio-apoio.md`, fora da entrega) e revisão, se pedida.
 → CAs tratados: **CA8** (erro da IA: a captura do lock parava no primeiro item, o digest `-md5`) → backend recriado, recapturado o item de lock real (`OperationTypePlan`) durante um `plan -refresh-only`, backend removido e AWS conferida vazia; **CA4** e **CA9** já corrigidos no passo anterior (down/up sem `-v`; verificação pós-destroy literal). **CA10** segue pendente: falta o `relatorio.md` (do aluno); o rascunho do `entrega.md` foi gerado com o checklist marcado exceto o item do relatório. **CA12** é o PR de 01/10 (não pode ser antecipado). CA1–CA9 e CA13–CA17 marcados na spec; CA10–CA12 seguem abertos (CA11 vale até a entrega).
+
+**P27** (26/09/2026)
+> repasse o entrega.md comigo
+
+→ IA: releu o rascunho do `entrega.md` contra o modelo do enunciado e as evidências, e o percorreu com o aluno item a item (resumo na resposta; ver abaixo o que foi ajustado).

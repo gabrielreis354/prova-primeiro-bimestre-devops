@@ -41,7 +41,6 @@
 ### docker compose ps (API + PostgreSQL saudáveis)
 
 ```
-### docker compose ps (após restart, saudável)
 NAME                                   IMAGE                                COMMAND                  SERVICE   CREATED          STATUS                    PORTS
 prova-primeiro-bimestre-devops-api-1   prova-primeiro-bimestre-devops-api   "docker-entrypoint.s…"   api       45 seconds ago   Up 20 seconds (healthy)   0.0.0.0:3100->3000/tcp, [::]:3100->3000/tcp
 prova-primeiro-bimestre-devops-db-1    postgres:16-alpine                   "docker-entrypoint.s…"   db        45 seconds ago   Up 20 seconds (healthy)   5432/tcp
@@ -50,7 +49,6 @@ prova-primeiro-bimestre-devops-db-1    postgres:16-alpine                   "doc
 ### Persistência do volume (containers recriados, dados mantidos)
 
 ```
-### Persistência com recriação dos containers (docker compose down SEM -v, depois up -d) — 2026-09-26
 $ docker compose up -d && cria reserva "Volume pgdata"
  Container prova-primeiro-bimestre-devops-db-1  Healthy
  Container prova-primeiro-bimestre-devops-api-1  Started
@@ -70,9 +68,6 @@ $ docker compose up -d   (containers NOVOS, mesmo volume)
  Container prova-primeiro-bimestre-devops-api-1  Started
 $ curl /reservas
 [{"id":3,"cliente":"Persistente","data":"2026-10-01T09:00:00.000Z","status":"pendente"},{"id":4,"cliente":"Volume pgdata","data":"2026-10-01T11:00:00.000Z","status":"pendente"}]
-NAME                                   IMAGE                                COMMAND                  SERVICE   CREATED         STATUS                           PORTS
-prova-primeiro-bimestre-devops-api-1   prova-primeiro-bimestre-devops-api   "docker-entrypoint.s…"   api       8 seconds ago   Up 1 second (health: starting)   0.0.0.0:3100->3000/tcp, [::]:3100->3000/tcp
-prova-primeiro-bimestre-devops-db-1    postgres:16-alpine                   "docker-entrypoint.s…"   db        8 seconds ago   Up 7 seconds (healthy)           5432/tcp
 ```
 
 ### terraform validate e terraform plan
