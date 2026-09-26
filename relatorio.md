@@ -5,19 +5,19 @@
 
 ## Questão 1 — A Jornada Completa (Aulas 01 a 07)
 
-Lendo o material de aula, o TF, o TA de cada aula dá para ver que os problemas da Technova foram crescentes de maneira que a solução a ser implementada pelo alauno com o auxilio da IA sempre se complementa. 
+Lendo o material de aula, o TF, o TA de cada aula dá para ver que os problemas da Technova foram crescentes de maneira que a solução a ser implementada pelo aluno com o auxílio da IA sempre se complementa. 
 
 - A aula 01 foi sobre docker e git
-- A aula 2 foi manteve o conteúdo da aula adicionando API + banco de dados PostgreSQL
-- A aula 3  instroduzi os conceitos sobre AWS com os Lab para aplicar os conceitos já conhecidos em um ambiente cloud
-- A aula 04 - instroduziu os conceitos de VPC, subnet pública subnet privada, internet gateway, Route Table, Seurity Grop e NACL no contexto de Firewal, Key Pairs e EC2 na AWS, não somente ensinando os conceitos, mas ensinando como utilizar eles na cloud, em específico na AWS.
-- A aula 05 - depois de conduzir os conceitos sobre infraestrutura em ambiente cloud, a pergunta guia foi: Onde vamos guardar os dados do usuário. Então aprendemos sobre os conceitos de: RDS, DB Subnet Group, Multi-AZ, terraform para subir e mapear os recursos nma AWS, backenf S3, DynamoDB
+- A aula 2 manteve o conteúdo da aula adicionando API + banco de dados PostgreSQL
+- A aula 3 introduziu os conceitos sobre AWS com os Lab para aplicar os conceitos já conhecidos em um ambiente cloud
+- A aula 04 - introduziu os conceitos de VPC, subnet pública subnet privada, internet gateway, Route Table, Security Group e NACL no contexto de Firewall, Key Pairs e EC2 na AWS, não somente ensinando os conceitos, mas ensinando como utilizar eles na cloud, em específico na AWS.
+- A aula 05 - depois de conduzir os conceitos sobre infraestrutura em ambiente cloud, a pergunta guia foi: Onde vamos guardar os dados do usuário. Então aprendemos sobre os conceitos de: RDS, DB Subnet Group, Multi-AZ, terraform para subir e mapear os recursos na AWS, backend S3, DynamoDB
 - Aula 06: Depois de conseguir desenhar e implantar as necessidades da Technova de maneira completa e utilizando terraform para isso avançamos no conteúdo de terraform, aprendendo sobre Terraform Modules.
-- Na aula 07, fugindo um pouco do ambiente de devops, foi uma aula focada em ensinar sobre os conceitos de decomposição, o dividir para conquistar da IA, metodologia SDD para Spec-Driven Development e como a IA pode ajudar a resolver problemas complexos de maneira que ajude o profissional a resolver grandes problemas em menos tempo, mas a necessidade que tem de superviosnar  o trabalho feito pela IA
+- Na aula 07, fugindo um pouco do ambiente de devops, foi uma aula focada em ensinar sobre os conceitos de decomposição, o dividir para conquistar da IA, metodologia SDD para Spec-Driven Development e como a IA pode ajudar a resolver problemas complexos de maneira que ajude o profissional a resolver grandes problemas em menos tempo, mas a necessidade que tem de supervisionar  o trabalho feito pela IA
 
 ## Questão 2 — O Processo com IA como Copiloto
 
-Para essa prova eu não usei o Kiro, eu usei o Claude Code com a skill oficial de Spec disponibilizada pelo Github e gravei as regras da metodologia SDD nela. No geral para criar a Spec validar, depoiis gerar o planejamento completo validar, depis gerar cada tasks e validar diminui bastante o grau de erro porque a IA define os passos que ela vai seguir. Você pode ver cada passo corrigir caso necessário, então você não precisa ter em mente cada passo que ela vai seguir após a execução, você no início pede para ela gerar o planejamento completoi e depois corrige conforme a necessidade. Como dá para ver no prompt logs que eu vou pedir para ela colocar abaixo. A quantidade massiva de prompts foi na fase de planejamento do que ela iria seguir, mas na fase de implementaçãoa ela só segue o planejamento que já foi especificado e validado, assim o trabalho que temos ou imprevistos diminui porque tanto você como a IA envolvida no processo sabe o que está sendo feito
+Para essa prova eu não usei o Kiro, eu usei o Claude Code com a skill oficial de Spec disponibilizada pelo Github e gravei as regras da metodologia SDD nela. No geral para criar a Spec validar, depois gerar o planejamento completo validar, depois gerar cada tasks e validar diminui bastante o grau de erro porque a IA define os passos que ela vai seguir. Você pode ver cada passo corrigir caso necessário, então você não precisa ter em mente cada passo que ela vai seguir após a execução, você no início pede para ela gerar o planejamento completo e depois corrige conforme a necessidade. Como dá para ver no prompt logs que eu vou pedir para ela colocar abaixo. A quantidade massiva de prompts foi na fase de planejamento do que ela iria seguir, mas na fase de implementação ela só segue o planejamento que já foi especificado e validado, assim o trabalho que temos ou imprevistos diminui porque tanto você como a IA envolvida no processo sabe o que está sendo feito
 
 ### Prompts que sustentam o relato (trechos literais de `evidencias/prompts-log.md`)
 
@@ -42,11 +42,11 @@ Leitura das fases: a decisão do que construir, com quais restrições e como va
 
 O claude vai incluir um diagrama mermaid abaixo sobre a arquitetura completa criada nesse exercício, mas respondendo as perguntas objetivamente:
 
-- Por que o RDS fica na subnet privada e a EC2 na pública? O RDS é um serviço de banco de dados gerenciado pela AWS, ou seja, todos os dados sensíveis de clientes estão lá e sendo assim eu não possa deixar uma porta aberta publica para qualquer um acessar. Dessa maneira limitar em uma subnet privada é uma maneira quue eu tenho para proteger o acesso de quem pode entrar e restringir para que ele não seja facilmente detectavel por pessoas com itenções maliciosas
+- Por que o RDS fica na subnet privada e a EC2 na pública? O RDS é um serviço de banco de dados gerenciado pela AWS, ou seja, todos os dados sensíveis de clientes estão lá e sendo assim eu não possa deixar uma porta aberta publica para qualquer um acessar. Dessa maneira limitar em uma subnet privada é uma maneira que eu tenho para proteger o acesso de quem pode entrar e restringir para que ele não seja facilmente detectável por pessoas com intenções maliciosas
 
-- Como funcionou o uso do LabRole/LabInstanceProfile em vez de criar IAM próprio? Especificamente no learner lab o permitido é usar LabRole / LabInstanceProfile até mesmo para que não se possa criar diferentes uusuários com diferentes políticas de permissões de acesso além do permitido. É uma segurança dentro do AWS Leaner Lab Academy utilizado para a execução das aulas
+- Como funcionou o uso do LabRole/LabInstanceProfile em vez de criar IAM próprio? Especificamente no learner lab o permitido é usar LabRole / LabInstanceProfile até mesmo para que não se possa criar diferentes usuários com diferentes políticas de permissões de acesso além do permitido. É uma segurança dentro do AWS Learner Lab Academy utilizado para a execução das aulas
 
-- Que ajustes o AWS Academy Learner Lab exigiu em relação ao que foi ensinado (credenciais temporárias, região, restrições de IAM)? A própria AWS Academy Leaner Lab limita a criação de roles, deixando somente a role da própria conta que seja utililzada, outros serviços também são limitados
+- Que ajustes o AWS Academy Learner Lab exigiu em relação ao que foi ensinado (credenciais temporárias, região, restrições de IAM)? A própria AWS Academy Leaner Lab limita a criação de roles, deixando somente a role da própria conta que seja utilizada, outros serviços também são limitados
 
 ### Diagrama da arquitetura provisionada
 
@@ -88,11 +88,13 @@ Antes de aplicar o terraform apply devemos conferir se aquilo que foi planejado 
 
 - Como validou: `terraform validate` e `plan`, revisão do plano, CRUD no RDS via `api_url`, `describe-db-instances`, `describe-security-groups`, state no S3 (versionado/SSE), lock no DynamoDB, e verificação pós-destroy por CLI.
 
-- Caso não houvesse revisão doa IA gerou esses erros reais coletados e enumerados poderiam ter acontecido e seria sdescoberto apenas depois: 
+- Caso não houvesse revisão da IA gerou esses erros reais coletados e enumerados poderiam ter acontecido e seria descoberto apenas depois: 
 
 1. Senha vazando nas evidências
 2. `0.0.0.0/0` na 5432
-3. DynamoDB fora do free-tier (caso fosse uma aplicação real fora do ambiente de $50 créditos do LeanerLasb executar teria prosseguido em custos reais e indesejados)
+3. DynamoDB fora do free-tier (caso fosse uma aplicação real fora do ambiente de $50 créditos do Learner Lab executar teria prosseguido em custos reais e indesejados)
 4. `tfplan` com senha sem estar no `.gitignore`.
 
-No geral são erros pequenos, detalhes minuciosos que pedem a revisão do código escrito pela IA para serem pegos e resolvidos. Mesmo com detalhe e planejamento alguns erros menores podem acontecer e que precisão da revisão humana para perceber.
+No geral são erros pequenos, detalhes minuciosos que pedem a revisão do código escrito pela IA para serem pegos e resolvidos. Mesmo com detalhe e planejamento alguns erros menores podem acontecer e que precisam da revisão humana para perceber.
+
+- Como a evolução Git → Docker → Terraform → Modules preparou você para usar IA com responsabilidade? Essa evolução do conhecimento sobre cada tecnologia te auxilia a não ser alguém que apenas concorda com a IA, mas alguém que de fato autentica que o que ela está escrevendo é verdadeiro, faz sentido de acordo com o contexto e que pode corrigir de acordo com cada caso
