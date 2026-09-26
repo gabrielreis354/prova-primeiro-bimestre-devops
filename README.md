@@ -65,6 +65,42 @@ Terraform modularizado no AWS Academy Learner Lab (`us-east-1`), usando `LabRole
 - **Remote state:** bucket S3 (versionado, criptografado) + tabela DynamoDB de lock, criados por `infra/backend/bootstrap.sh`.
 - **Outputs:** `ec2_public_ip`, `rds_endpoint`, `api_url`.
 
+### Arquitetura provisionada
+
+```mermaid
+flowchart LR
+  user["Cliente / curl<br/>HTTP :3000"]
+  dev["Aluno<br/>terraform + AWS CLI<br/>role voclabs (credenciais temporárias)"]
+  tf["Terraform<br/>módulos vpc · security-group · ec2 · rds<br/>outputs: ec2_public_ip · rds_endpoint · api_url"]
+  gh["GitHub (repo público)<br/>tag v0.9-apply"]
+
+  subgraph aws["AWS Academy Learner Lab · us-east-1 · sem IAM próprio (LabRole / LabInstanceProfile)"]
+    subgraph vpc["VPC 10.0.0.0/16 (módulo vpc) · sem NAT Gateway"]
+      igw["Internet<br/>Gateway"]
+      subgraph pub["Subnets públicas<br/>1a 10.0.0.0/24 · 1b 10.0.1.0/24<br/>rota 0.0.0.0/0 → IGW"]
+        ec2["EC2 t2.micro · AL2023<br/>API Node/Express em Docker :3000<br/>LabInstanceProfile · key vockey · IMDSv2<br/>SG: 22 ← IP do aluno /32 · 3000 ← 0.0.0.0/0"]
+      end
+      subgraph priv["Subnets privadas + DB subnet group<br/>1a 10.0.10.0/24 · 1b 10.0.11.0/24<br/>sem rota para a internet"]
+        rds[("RDS PostgreSQL 16.13 · db.t3.micro<br/>20 GB gp2 · criptografado · single-AZ<br/>publicly_accessible = false<br/>SG: 5432 ← somente o SG da EC2")]
+      end
+    end
+    subgraph state["Remote state (bootstrap.sh)"]
+      s3[("S3 · state versionado<br/>SSE AES256 · block public access")]
+      ddb[("DynamoDB · lock LockID<br/>PROVISIONED 1/1")]
+    end
+  end
+
+  user -->|"HTTP 3000"| igw --> ec2
+  ec2 -->|"PostgreSQL 5432 + SSL"| rds
+  dev -.->|"SSH 22 só do /32 do aluno"| igw
+  ec2 -.->|"git clone HTTPS (user_data)"| gh
+  dev --> tf
+  tf -.->|"provisiona 19 recursos"| vpc
+  tf -.->|"backend s3 + lock"| state
+```
+
+Imagem do mesmo diagrama: [`evidencias/arquitetura.png`](evidencias/arquitetura.png).
+
 Sequência (credenciais do Lab carregadas na sessão; senha e IP só em variáveis de ambiente, nunca em arquivo):
 
 ```bash

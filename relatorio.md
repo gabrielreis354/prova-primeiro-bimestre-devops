@@ -5,7 +5,7 @@
 
 ## Questão 1 — A Jornada Completa (Aulas 01 a 07)
 
-Lendo o material de aula, o TF, o TA de cada aula dá para ver que os problemas da Technova foram crescentes de maneira que a solução a ser implementada pelo aluno com o auxílio da IA sempre se complementa. 
+Lendo o material de aula, o TF, o TA de cada aula dá para ver que os problemas da Technova foram crescentes de maneira que a solução a ser implementada pelo aluno com o auxílio da IA sempre se complementa.
 
 - A aula 01 foi sobre docker e git
 - A aula 2 manteve o conteúdo da aula adicionando API + banco de dados PostgreSQL
@@ -16,8 +16,6 @@ Lendo o material de aula, o TF, o TA de cada aula dá para ver que os problemas 
 - Na aula 07, fugindo um pouco do ambiente de devops, foi uma aula focada em ensinar sobre os conceitos de decomposição, o dividir para conquistar da IA, metodologia SDD para Spec-Driven Development e como a IA pode ajudar a resolver problemas complexos de maneira que ajude o profissional a resolver grandes problemas em menos tempo, mas a necessidade que tem de supervisionar  o trabalho feito pela IA
 
 ### Onde cada aula apareceu na solução e a ordem seguida
-
-> *Trecho redigido com apoio da IA (Claude Code), a ser conferido e ajustado pelo aluno. Os campos `[Aluno: ...]` dependem da avaliação pessoal dele.*
 
 A ordem seguiu a sugestão das Dicas do enunciado (Git e aplicação primeiro, depois container, depois Compose local e só então a AWS), precedida de uma etapa de especificação. A razão: o Terraform e a AWS eram o maior risco de tempo e de custo, então o que podia ser validado localmente (API, Docker, Compose) foi provado antes de gastar créditos do Learner Lab, e o backend de state foi criado antes do `backend "s3"`, como a prova recomenda.
 
@@ -40,11 +38,13 @@ A ordem seguiu a sugestão das Dicas do enunciado (Git e aplicação primeiro, d
 
 ## Questão 2 — O Processo com IA como Copiloto
 
-Para essa prova eu não usei o Kiro, eu usei o Claude Code com a skill oficial de Spec disponibilizada pelo Github e gravei as regras da metodologia SDD nela. No geral para criar a Spec validar, depois gerar o planejamento completo validar, depois gerar cada tasks e validar diminui bastante o grau de erro porque a IA define os passos que ela vai seguir. Você pode ver cada passo corrigir caso necessário, então você não precisa ter em mente cada passo que ela vai seguir após a execução, você no início pede para ela gerar o planejamento completo e depois corrige conforme a necessidade. Como dá para ver no prompt logs que eu vou pedir para ela colocar abaixo. A quantidade massiva de prompts foi na fase de planejamento do que ela iria seguir, mas na fase de implementação ela só segue o planejamento que já foi especificado e validado, assim o trabalho que temos ou imprevistos diminui porque tanto você como a IA envolvida no processo sabe o que está sendo feito
+Para essa prova eu não usei o Kiro, eu usei o Claude Code com a skill oficial de Spec disponibilizada pelo Github e gravei as regras da metodologia SDD nela.
+
+No geral para criar a Spec validar, depois gerar o planejamento completo validar, depois gerar cada tasks e validar diminui bastante o grau de erro porque a IA define os passos que ela vai seguir. Você pode ver cada passo corrigir caso necessário, então você não precisa ter em mente cada passo que ela vai seguir após a execução, você no início pede para ela gerar o planejamento completo e depois corrige conforme a necessidade.
+
+Como dá para ver no prompt logs que eu vou pedir para ela colocar abaixo. A quantidade massiva de decisões e revisões foi extremamente necessária para capturar a maioria dos erros descobertos, mas na fase de implementação ela só segue o planejamento que já foi especificado e validado, assim o trabalho que temos ou imprevistos diminui porque tanto você como a IA envolvida no processo sabe o que está sendo feito
 
 ### Fluxo usado, acertos e correções
-
-> *Trecho redigido com apoio da IA (Claude Code), a ser conferido e ajustado pelo aluno. Os campos `[Aluno: ...]` dependem da avaliação pessoal dele.*
 
 **Fluxo.** O fluxo equivale ao requisitos → design → tarefas do Kiro: `spec.md` (objetivos, restrições, RF1 a RF21 e critérios de aceitação CA1 a CA17), `plan.md` (decisões técnicas e trade-offs) e `tasks.md` (41 tarefas, cada uma com uma verificação). Houve um checkpoint humano após cada etapa e revisão por subagentes independentes.
 
@@ -75,7 +75,7 @@ Para essa prova eu não usei o Kiro, eu usei o Claude Code com a skill oficial d
 - Onde economizou: código repetitivo (módulos, scripts, Compose), evidências e log, e revisões em paralelo por subagentes.
 - Onde atrapalhou ou custou tempo: os erros da tabela acima, a revisão necessária de cada saída e o retrabalho de evidências.
 - Não houve medição de uma execução manual de referência; qualquer comparação de tempo é estimativa.
-- `[Aluno: sua avaliação pessoal: quanto tempo estimaria fazendo à mão, onde a IA mais ajudou e onde você mais precisou intervir.]`
+- Definitamente desenvolver manualmente seria muito mais demorado do que foi realmente, a IA poder escrever o código e depois poder revisar de acordo com o planejamento revisado por você é muito melhor para o ciclo de desenvolvimento. Você apenas pode analisar o código escrito e pedir para ele mudar conforme a necessidade.
 
 ### Prompts que sustentam o relato (trechos literais de `evidencias/prompts-log.md`)
 
@@ -108,8 +108,6 @@ O claude vai incluir um diagrama mermaid abaixo sobre a arquitetura completa cri
 
 ### Complementos da Questão 3
 
-> *Trecho redigido com apoio da IA (Claude Code), a ser conferido e ajustado pelo aluno. Os campos `[Aluno: ...]` dependem da avaliação pessoal dele.*
-
 - **Por que a EC2 fica na subnet pública:** a API precisa receber requisições da internet (porta 3000, pelo Internet Gateway) e o aluno precisa administrar a instância (SSH na 22, liberado só para o IP do aluno em /32). O RDS não recebe tráfego da internet: só a EC2 alcança a porta 5432, porque o SG do RDS aceita apenas o SG da EC2 como origem (`referenced_security_group_id`), sem `0.0.0.0/0`. Prova: a tentativa de conexão TCP externa ao RDS não abriu (`seguranca-state.txt`).
 - **Como o LabRole e o LabInstanceProfile foram usados na prática:** a EC2 recebe `iam_instance_profile = "LabInstanceProfile"` apenas por nome, e o provider usa as credenciais da role do Lab (`voclabs`). Nenhum recurso IAM foi criado: `terraform state list` não tem nenhum `aws_iam`.
 - **Credenciais temporárias:** o Lab entrega Access Key, Secret e Session Token (carregados por `aws-creds.sh`) que expiram. No início do dia 5 a sessão já estava expirada (`InvalidClientTokenId`) e precisou ser renovada.
@@ -120,34 +118,38 @@ O claude vai incluir um diagrama mermaid abaixo sobre a arquitetura completa cri
 
 ### Diagrama da arquitetura provisionada
 
-*Bloco inserido pela IA a pedido do aluno, a partir do `terraform plan`/`apply` real (19 recursos).*
+*Bloco inserido pela IA a pedido do aluno, a partir do `terraform plan`/`apply` real (19 recursos). Versão em imagem, renderizada com o mermaid-cli: `evidencias/arquitetura.png`.*
 
 ```mermaid
-flowchart TB
-  user["Aluno / clientes<br/>(internet)"]
-  tf["Terraform: módulos<br/>vpc, security-group, ec2, rds"]
+flowchart LR
+  user["Cliente / curl<br/>HTTP :3000"]
+  dev["Aluno<br/>terraform + AWS CLI<br/>role voclabs (credenciais temporárias)"]
+  tf["Terraform<br/>módulos vpc · security-group · ec2 · rds<br/>outputs: ec2_public_ip · rds_endpoint · api_url"]
+  gh["GitHub (repo público)<br/>tag v0.9-apply"]
 
-  subgraph aws["AWS Academy Learner Lab · us-east-1"]
-    subgraph vpc["VPC 10.0.0.0/16 (módulo vpc)"]
-      igw["Internet Gateway"]
-      subgraph pub["Subnets públicas 1a e 1b · rota 0.0.0.0/0 para o IGW"]
-        ec2["EC2 t2.micro · API Node/Express em Docker<br/>LabInstanceProfile<br/>SG: 22 só do IP do aluno /32 · 3000"]
+  subgraph aws["AWS Academy Learner Lab · us-east-1 · sem IAM próprio (LabRole / LabInstanceProfile)"]
+    subgraph vpc["VPC 10.0.0.0/16 (módulo vpc) · sem NAT Gateway"]
+      igw["Internet<br/>Gateway"]
+      subgraph pub["Subnets públicas<br/>1a 10.0.0.0/24 · 1b 10.0.1.0/24<br/>rota 0.0.0.0/0 → IGW"]
+        ec2["EC2 t2.micro · AL2023<br/>API Node/Express em Docker :3000<br/>LabInstanceProfile · key vockey · IMDSv2<br/>SG: 22 ← IP do aluno /32 · 3000 ← 0.0.0.0/0"]
       end
-      subgraph priv["Subnets privadas 1a e 1b · sem rota para a internet · sem NAT"]
-        rds[("RDS PostgreSQL 16.13 db.t3.micro<br/>privado · criptografado<br/>SG: 5432 só a partir do SG da EC2")]
+      subgraph priv["Subnets privadas + DB subnet group<br/>1a 10.0.10.0/24 · 1b 10.0.11.0/24<br/>sem rota para a internet"]
+        rds[("RDS PostgreSQL 16.13 · db.t3.micro<br/>20 GB gp2 · criptografado · single-AZ<br/>publicly_accessible = false<br/>SG: 5432 ← somente o SG da EC2")]
       end
     end
-    subgraph state["Remote state (criado por bootstrap.sh)"]
-      s3[("S3: state versionado + SSE")]
-      ddb[("DynamoDB: lock LockID")]
+    subgraph state["Remote state (bootstrap.sh)"]
+      s3[("S3 · state versionado<br/>SSE AES256 · block public access")]
+      ddb[("DynamoDB · lock LockID<br/>PROVISIONED 1/1")]
     end
   end
 
   user -->|"HTTP 3000"| igw --> ec2
-  user -. "SSH 22 (só o IP do aluno)" .-> ec2
-  ec2 -->|"PostgreSQL 5432 com SSL"| rds
-  tf -.-> s3
-  tf -.-> ddb
+  ec2 -->|"PostgreSQL 5432 + SSL"| rds
+  dev -.->|"SSH 22 só do /32 do aluno"| igw
+  ec2 -.->|"git clone HTTPS (user_data)"| gh
+  dev --> tf
+  tf -.->|"provisiona 19 recursos"| vpc
+  tf -.->|"backend s3 + lock"| state
 ```
 
 ## Questão 4 — Validação e Responsabilidade
@@ -158,7 +160,7 @@ Antes de aplicar o terraform apply devemos conferir se aquilo que foi planejado 
 
 - Como validou: `terraform validate` e `plan`, revisão do plano, CRUD no RDS via `api_url`, `describe-db-instances`, `describe-security-groups`, state no S3 (versionado/SSE), lock no DynamoDB, e verificação pós-destroy por CLI.
 
-- Caso não houvesse revisão da IA gerou esses erros reais coletados e enumerados poderiam ter acontecido e seria descoberto apenas depois: 
+- Caso não houvesse revisão da IA gerou esses erros reais coletados e enumerados poderiam ter acontecido e seria descoberto apenas depois:
 
 1. Senha vazando nas evidências
 2. `0.0.0.0/0` na 5432
@@ -168,25 +170,3 @@ Antes de aplicar o terraform apply devemos conferir se aquilo que foi planejado 
 No geral são erros pequenos, detalhes minuciosos que pedem a revisão do código escrito pela IA para serem pegos e resolvidos. Mesmo com detalhe e planejamento alguns erros menores podem acontecer e que precisam da revisão humana para perceber.
 
 - Como a evolução Git → Docker → Terraform → Modules preparou você para usar IA com responsabilidade? Essa evolução do conhecimento sobre cada tecnologia te auxilia a não ser alguém que apenas concorda com a IA, mas alguém que de fato autentica que o que ela está escrevendo é verdadeiro, faz sentido de acordo com o contexto e que pode corrigir de acordo com cada caso
-
-### Como o caso real de "aceitar sem revisar" foi evitado
-
-> *Trecho redigido com apoio da IA (Claude Code), a ser conferido e ajustado pelo aluno. Os campos `[Aluno: ...]` dependem da avaliação pessoal dele.*
-
-Durante o dia 6, um `terraform apply -auto-approve` foi disparado sobre um plano novo, com senha e IP diferentes do plano revisado, sem que ele fosse mostrado antes. O sistema bloqueou o comando seguinte de acompanhamento, o aluno escolheu interromper e limpar, e a verificação por CLI confirmou que nada foi criado (nenhum state, lock, EC2, RDS ou VPC), sendo removido só o backend. Foi o exemplo prático de que revisar não é opcional: sem o bloqueio, 19 recursos, entre eles um RDS, teriam sido criados sem ninguém ter visto o plano aplicado. A prática que passou a valer foi `terraform plan -out`, revisão do plano e `terraform apply` do arquivo salvo, e foi essa a sequência usada no apply seguinte (`prompts-log.md`, P21 a P24).
-
-### Como Git → Docker → Terraform → Módulos preparou para usar IA com responsabilidade
-
-> *Trecho redigido com apoio da IA (Claude Code), a ser conferido e ajustado pelo aluno. Os campos `[Aluno: ...]` dependem da avaliação pessoal dele.*
-
-Cada camada só avançou quando a anterior tinha evidência, e cada uma deixou um jeito objetivo de conferir o que a IA produziu:
-
-- **Git:** commits pequenos e convencionais, feature branch e `.gitignore` permitem ver exatamente o que a IA mudou e impedem que segredos entrem (o caso do `tfplan` foi pego assim).
-- **Docker:** `docker build`, `whoami` (usuário não-root) e `curl /health` provam o container antes de depender dele.
-- **Compose:** healthcheck, `smoke.sh` e a prova de persistência do volume validam a aplicação e o banco juntos, ainda sem custo de nuvem.
-- **Terraform:** `validate`, `plan` e o state tornam a infraestrutura legível antes de existir; o plano é o ponto de revisão humana.
-- **Módulos:** a composição por outputs e inputs (VPC → SGs → RDS → EC2) mostra as dependências, e foi o que permitiu revisar cada regra de segurança, como a do SG do RDS.
-
-Como o mesmo `smoke.sh` valida o ambiente local, o Compose e o RDS, dá para comparar resultados entre as camadas. Esse hábito de provar cada camada antes de avançar é o que permite usar IA com responsabilidade: a saída da IA é tratada como proposta a verificar, não como resultado pronto.
-
-`[Aluno: como essa evolução mudou o seu modo de revisar código gerado por IA.]`
