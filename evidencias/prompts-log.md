@@ -161,3 +161,16 @@ Português, conciso. Não repita o que está correto além da tabela.
 > siga para o dia 4
 
 → IA: executou T14–T17. Gerou `.env.example`, `.env` local (ignorado) e `docker-compose.yml` (db postgres:16-alpine com volume `pgdata` e `pg_isready`; api com `depends_on: service_healthy`; rede `reservas-net` bridge explícita). Decisões da IA: porta da API configurável (`API_PORT`), pois a 3000 do host é usada por outra aplicação; banco sem porta publicada no host; `DB_PASSWORD` obrigatória (`:?`) para falhar cedo. Verificado: `docker compose config`, `up -d --build`, ambos `healthy`, `smoke.sh` verde, dado criado sobrevive a `docker compose restart`, network com driver bridge. Evidência em `evidencias/compose-ps.txt`. *Correção:* a primeira captura do `ps` pós-restart mostrou `health: starting`; recapturada já saudável. README atualizado com "Como rodar".
+
+**P17** (25/09/2026) — comando local `/rename` (sessão renomeada para `prova_ale`) e prompt:
+> pode seguir
+
+→ IA: iniciou o dia 5 (T18–T28). Parou no guardrail: `aws sts get-caller-identity` falhava com `InvalidClientTokenId` (credenciais do Lab expiradas).
+
+**P18** (25/09/2026)
+> Estamos usando o LearnerLab e as  credenciais estao no aws-creds.sh
+
+→ IA: localizou `aws-creds.sh` (fora do repo da prova), mostrou a estrutura com valores mascarados, carregou com `source` e refez o guardrail: identidade `assumed-role/voclabs` (não root), região `us-east-1`. Como cada chamada Bash é um shell novo, o `source` é repetido a cada comando AWS/Terraform.
+
+→ Dia 5, o que a IA gerou: `bootstrap.sh`/`teardown.sh`, módulos `vpc`, `security-group`, `rds`, `ec2` e raiz (providers, variables, main, outputs). Executado: bootstrap (bucket e tabela verificados), consultas de RDS/AZ/AMI (fixou `postgres 16.13` e AZs 1a/1b), `init`, `validate`, `plan` (19 recursos, sem IAM/NAT), e `teardown.sh` do backend com verificação de que nada restou.
+→ Observações/correções: (1) `dynamodb_table` aparece como *deprecated* no Terraform 1.15; mantido porque o enunciado exige DynamoDB; (2) `describe-orderable-db-instance-options` rejeitou `--engine-version 16` (exige versão completa) → refeito com 16.9/16.13/16.15; (3) validação da senha do RDS limita o alfabeto por causa das aspas simples no `user_data`; (4) `plan` com senha e IP só em variáveis de ambiente; evidências mascaram IP e account-id e a senha não aparece; (5) backend derrubado no mesmo dia por causa da regra de custos, e por isso o `init` precisará de `-reconfigure` no dia 6.
